@@ -10,7 +10,10 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 Vue.use(mavonEditor);
 //element-ui使用
-import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,MenuItem,RadioGroup,RadioButton,MenuItemGroup } from 'element-ui';
+import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,
+  MenuItem,RadioGroup,RadioButton,MenuItemGroup ,
+  Container,Aside,Header,Main,Footer
+} from 'element-ui';
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);
 Vue.component(Form.name, Form);
@@ -26,6 +29,14 @@ Vue.component(MenuItem.name, MenuItem);
 Vue.component(RadioGroup.name, RadioGroup);
 Vue.component(RadioButton.name, RadioButton);
 Vue.component(MenuItemGroup.name, MenuItemGroup);
+
+Vue.component(Container.name, Container);
+Vue.component(Aside.name, Aside);
+Vue.component(Header.name, Header);
+Vue.component(Main.name, Main);
+Vue.component(Footer.name, Footer);
+
+
 
 const router = new VueRouter(
   {
