@@ -1,0 +1,71 @@
+<template>
+  <div class="site-header">
+    <div class="site-header-brand">
+
+      <span class="site-header-brand-title">
+        <a href="/">ICAIFUN</a>
+      </span>
+
+
+      <span class="site-header-brand-motto"> | 安静的阿根</span>
+
+    </div>
+    <div class="site-header-right">
+      <nav class="site-header-navigation">
+
+        <span><a href="">主页</a></span>
+        <span><a href="">&nbsp&nbsp&nbsp标签页</a></span>
+        <span><a href="">&nbsp&nbsp&nbsp小工具</a></span>
+        <span><a href="">&nbsp&nbsp&nbsp友情链接</a></span>
+        <span><a href="">&nbsp&nbsp&nbsp关于本站</a></span>
+      </nav>
+    </div>
+  </div>
+</template>
+
+<script>
+    export default {
+        name: "NavBar.vue"
+    }
+</script>
+
+<style lang="scss">
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    border-bottom: #4FC08D solid 2px;
+    padding: 0 10px;
+    /*background: #4FC08D;*/
+    background: #F7F7F7;
+    z-index: 300;
+
+    .site-header-brand {
+      height: 60px;
+      line-height: 60px;
+      /*color: #ECFCF9;*/
+      .site-header-brand-title {
+        font-size: 22px;
+        font-weight: bold;
+      }
+      .site-header-brand-motto {
+        font-size: 18px;
+      }
+    }
+
+    .site-header-right {
+      margin-right: 40px;
+      /*color: #ECFCF9;*/
+
+      height: 60px;
+      line-height: 60px;
+      display: flex;
+      justify-content: space-between;
+
+    }
+  }
+</style>

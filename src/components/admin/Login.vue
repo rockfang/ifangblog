@@ -1,0 +1,116 @@
+<template>
+  <div class="loginpage">
+    <div class="content">
+      <div class="title">ICAIFUN登陆</div>
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
+        <el-form-item prop="username">
+          <el-input placeholder="用户名" prefix-icon="el-icon-user-solid" autocomplete="off" v-model="ruleForm.username">
+          </el-input>
+        </el-form-item>
+
+        <el-form-item prop="pass">
+          <el-input placeholder="密码" type="password" v-model="ruleForm.pass" autocomplete="off">
+            <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width: 100%" @click="submitForm('ruleForm')">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+
+      var validateUser = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入用户名'));
+        }
+        setTimeout(() => {
+          if (value.length < 3) {
+            callback(new Error('用户名长度须大于3位'));
+          } else {
+            callback();
+          }
+        }, 1000);
+      };
+
+      var validatePass = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入密码'));
+        } else {
+          callback();
+        }
+      };
+
+      return {
+        ruleForm: {
+          username: '',
+          pass: '',
+        },
+        rules: {
+          pass: [
+            {validator: validatePass, trigger: 'blur'}
+          ],
+          username: [
+            {validator: validateUser, trigger: 'blur'}
+          ]
+        }
+      };
+    },
+    methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  .loginpage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #909399 no-repeat 50%;
+    background-size: 100% 100%;
+
+
+    .content {
+      width: 370px;
+      height: 210px;
+      position: absolute;
+      top: 20%;
+      left: 34%;
+      padding: 25px;
+      border-radius: 5px;
+      text-align: center;
+
+      .title {
+        font-family: cursive;
+        font-weight: 700;
+        font-size: 26px;
+        color: #fff;
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+
+  .el-input__icon {
+    color: #409EFF;
+
+  }
+</style>
