@@ -1,13 +1,18 @@
 <template>
 
   <div>
-    <div>这是cms管理员管理组件</div>
+    <AdminHeadBar></AdminHeadBar>
+    <AdminLeftBar></AdminLeftBar>
   </div>
 </template>
 
 <script>
+  import AdminHeadBar from "./public/AdminHeadBar.vue"
+  import AdminLeftBar from "./public/AdminLeftBar.vue"
     export default {
-        name: "Admin.vue"
+        components: {
+          AdminHeadBar,AdminLeftBar
+      }
     }
 </script>
 

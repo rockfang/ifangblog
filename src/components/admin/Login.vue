@@ -102,7 +102,7 @@
         font-family: cursive;
         font-weight: 700;
         font-size: 26px;
-        color: #fff;
+        color: #409EFF;
         padding-bottom: 20px;
       }
     }
