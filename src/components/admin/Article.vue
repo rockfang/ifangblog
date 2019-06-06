@@ -1,12 +1,9 @@
 <template>
   <div>
-    <v-headNavBar></v-headNavBar>
+    <!--<v-headNavBar></v-headNavBar>-->
     <!--<v-articleTagBar></v-articleTagBar>-->
 
-    <div>this is article</div>
-
-
-    <mavon-editor :toolbars="markdownOption" v-model="handbook" codeStyle='androidstudio' />
+    <mavon-editor :toolbars="markdownOption" v-model="handbook" codeStyle='androidstudio' :style="mheight"/>
   </div>
 </template>
 
@@ -17,6 +14,10 @@
   export default {
     data() {
       return {
+        //设置编辑框高度 60顶部栏+ 40header + 40footer 20预留底部距离 + 40本身Editor的padding预留
+        mheight: {
+          'min-height': window.innerHeight - 200 + 'px'
+        },
         markdownOption: {
           bold: true, // 粗体
           italic: true, // 斜体
@@ -57,11 +58,13 @@
     },components: {
       'v-headNavBar': HeadNavBar,
       'v-articleTagBar': ArticelTagBar
-
     }
     }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
+  .markdown-body {
+    /*min-height: 600px;*/
+  }
 </style>

@@ -6,7 +6,7 @@
       <el-aside width="">
         <div class="leftBar">
           <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo"
-                   @open="handleOpen" @close="handleClose" :collapse="isCollapse" router=True>
+                   @open="handleOpen" @close="handleClose" :collapse="isCollapse">
 
             <el-menu-item index="1">
               <i class="el-icon-notebook-2"></i>
@@ -93,7 +93,7 @@
         </el-header>
         <el-main>
 
-          Main
+          <Article></Article>
 
         </el-main>
         <el-footer height="40px">蜀ICP备19016691号</el-footer>
@@ -105,7 +105,9 @@
 </template>
 
 <script>
-    export default {
+  import Article from '../Article.vue'
+
+  export default {
       data() {
         return {
           isCollapse: false,
@@ -122,6 +124,8 @@
         handleClose(key, keyPath) {
           console.log(key, keyPath);
         }
+      },components: {
+          Article
       }
     }
 </script>
