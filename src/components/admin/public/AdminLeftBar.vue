@@ -1,10 +1,12 @@
 <template>
   <div class="out-con">
     <el-container :style="cheight">
+
+      <!--左侧导航区-->
       <el-aside width="">
         <div class="leftBar">
           <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo"
-                   @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                   @open="handleOpen" @close="handleClose" :collapse="isCollapse" router=True>
 
             <el-menu-item index="1">
               <i class="el-icon-notebook-2"></i>
@@ -77,6 +79,8 @@
           </el-menu>
         </div>
       </el-aside>
+
+      <!--右侧面包屑 + 内容展示区-->
       <el-container>
         <el-header height="40px">
           <i @click="isCollapse = !isCollapse"  :class="{'el-icon-s-fold':!isCollapse,'el-icon-s-unfold':isCollapse}"></i>
@@ -87,8 +91,12 @@
             <el-breadcrumb-item>活动详情</el-breadcrumb-item>
           </el-breadcrumb>
         </el-header>
-        <el-main>Main</el-main>
-        <el-footer>Footer</el-footer>
+        <el-main>
+
+          Main
+
+        </el-main>
+        <el-footer height="40px">蜀ICP备19016691号</el-footer>
       </el-container>
     </el-container>
 
@@ -101,7 +109,7 @@
       data() {
         return {
           isCollapse: false,
-
+          //动态设置整个内容区高度，作用是让el中aside,header,content,footer内容布局能完整展示footer
           cheight: {
             height: window.innerHeight - 60 + 'px'
           }
@@ -121,58 +129,54 @@
 <style scoped lang="scss">
   .out-con {
     margin-top: 60px;
-  }
 
-  .container {
-    margin-top: 60px;
-    height: 100%;
-  }
-
-  .leftBar {
-    min-height: 100%;
-    background-color: #324057;
-    .el-menu-vertical-demo {
-      top: 0;
-      left: 0;
-      height: 100%;
-      z-index: 99;
-    }
-
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 200px;
+    .leftBar {
       min-height: 100%;
+      background-color: #324057;
+      .el-menu-vertical-demo {
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 99;
+      }
+
+      .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 100%;
+      }
+
+      .el-submenu__title * {
+        color: white;
+      }
+
+      /*子菜单颜色*/
+      .el-menu-item {
+        background-color: transparent  !important;
+        color: white;
+      }
+
+      /*字体颜色：*/
+      .el-aside {
+        color: white;
+      }
+      /*鼠标悬浮时，子菜单的样式：*/
+      .el-menu-item:hover{
+        outline: 0 !important;
+        color: #409EFF !important;
+      }
+      .el-menu-item.is-active {
+        color: #fff !important;
+        background: #409EFF !important;
+      }
+      /*4.鼠标悬浮时，主菜单的样式：*/
+      .el-submenu__title:focus, .el-submenu__title:hover {
+        outline: 0 !important;
+        color: #409EFF !important;
+        background: none !important;
+      }
     }
 
-    .el-submenu__title * {
-      color: white;
-    }
 
-    /*子菜单颜色*/
-    .el-menu-item {
-      background-color: transparent  !important;
-      color: white;
-    }
-
-    /*字体颜色：*/
-    .el-aside {
-      color: white;
-    }
-    /*鼠标悬浮时，子菜单的样式：*/
-    .el-menu-item:hover{
-      outline: 0 !important;
-      color: #409EFF !important;
-    }
-    .el-menu-item.is-active {
-      color: #fff !important;
-      background: #409EFF !important;
-    }
-    /*4.鼠标悬浮时，主菜单的样式：*/
-    .el-submenu__title:focus, .el-submenu__title:hover {
-      outline: 0 !important;
-      color: #409EFF !important;
-      background: none !important;
-    }
-  }
     .el-header {
       background: #EFF2F7;
       width: 100%;
@@ -184,21 +188,16 @@
       }
     }
 
-  /*.el-tooltip__popper.is-dark {*/
-    /*background: #303133 !important;*/
-    /*color: #fff !important;*/
-  /*}*/
 
-  /*.el-tooltip__popper {*/
-    /*position: absolute;*/
-    /*border-radius: 4px;*/
-    /*padding: 10px;*/
-    /*z-index: 2000;*/
-    /*font-size: 12px;*/
-    /*line-height: 1.2;*/
-    /*min-width: 10px;*/
-    /*word-wrap: break-word;*/
-  /*}*/
+    .el-footer {
+      line-height: 40px;
+      text-align: center;
+      background: #324057;
+      color: white;
+    }
+  }
+
+
 
 
 </style>
