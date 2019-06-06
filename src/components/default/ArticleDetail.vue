@@ -1,9 +1,15 @@
 <template>
     <div>
       <v-headNavBar></v-headNavBar>
-      文章詳情
       <div class="content">
-        <div class="article" v-html="msg"></div>
+        <el-container :style="cheight">
+          <el-aside width="200px">Aside</el-aside>
+          <el-container>
+            <el-header>Header</el-header>
+            <el-main>Main</el-main>
+            <el-footer>Footer</el-footer>
+          </el-container>
+        </el-container>
       </div>
     </div>
 </template>
@@ -15,8 +21,14 @@
     name: "ArticleDetail",
     data:function() {
       return {
-        msg:"aaa"
+        msg:"aaa",
+        cheight: {
+          height: window.innerHeight - 60 + 'px'
+        }
       }
+    },
+    computed: {
+
     },
     components: {
       'v-headNavBar': HeadNavBar,
@@ -27,11 +39,27 @@
 <style lang="scss">
   .content {
     text-align: center;
-    .article {
-      margin-top: 60px;
-      display: inline-block;
-      text-align: left;
-      width:78%;
+    margin-top: 60px;
+    .el-header, .el-footer {
+      background-color: #B3C0D1;
+      color: #333;
+      text-align: center;
+      line-height: 60px;
     }
+
+    .el-aside {
+      background-color: #D3DCE6;
+      color: #333;
+      text-align: center;
+      line-height: 200px;
+    }
+
+    .el-main {
+      background-color: #E9EEF3;
+      color: #333;
+      text-align: center;
+      line-height: 160px;
+    }
+
   }
 </style>

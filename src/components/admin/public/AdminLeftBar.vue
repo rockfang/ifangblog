@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <!--<div class="out-con">-->
-
-
-
-    <el-container>
-      <el-aside>
+  <div class="out-con">
+    <el-container :style="cheight">
+      <el-aside width="">
         <div class="leftBar">
-          <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+          <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo"
+                   @open="handleOpen" @close="handleClose" :collapse="isCollapse">
 
             <el-menu-item index="1">
               <i class="el-icon-notebook-2"></i>
@@ -80,18 +77,22 @@
           </el-menu>
         </div>
       </el-aside>
-      <el-container style="margin-top: 60px">
-        <el-header @click="isCollapse = !isCollapse">Header
-
-          <div class="change" @click="isCollapse = !isCollapse">切换状态</div>
+      <el-container>
+        <el-header height="40px">
+          <i @click="isCollapse = !isCollapse"  :class="{'el-icon-s-fold':!isCollapse,'el-icon-s-unfold':isCollapse}"></i>
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item >活动管理</el-breadcrumb-item>
+            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          </el-breadcrumb>
         </el-header>
         <el-main>Main</el-main>
         <el-footer>Footer</el-footer>
       </el-container>
     </el-container>
 
-    </div>
-  <!--</div>-->
+  </div>
 
 </template>
 
@@ -99,7 +100,11 @@
     export default {
       data() {
         return {
-          isCollapse: false
+          isCollapse: false,
+
+          cheight: {
+            height: window.innerHeight - 60 + 'px'
+          }
         };
       },
       methods: {
@@ -115,16 +120,17 @@
 
 <style scoped lang="scss">
   .out-con {
-    display: flex;
+    margin-top: 60px;
+  }
+
+  .container {
+    margin-top: 60px;
+    height: 100%;
   }
 
   .leftBar {
-    position: fixed;
-    top: 60px;
-    left: 0;
     min-height: 100%;
     background-color: #324057;
-
     .el-menu-vertical-demo {
       top: 0;
       left: 0;
@@ -167,14 +173,32 @@
       background: none !important;
     }
   }
+    .el-header {
+      background: #EFF2F7;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .el-breadcrumb {
+        line-height: 40px;
+        margin-left: 15px;
+      }
+    }
 
-  .manager-content {
-    position: fixed;
-    top: 60px;
-    bottom: 40px;
-    overflow: auto;
-    background: red;
-  }
+  /*.el-tooltip__popper.is-dark {*/
+    /*background: #303133 !important;*/
+    /*color: #fff !important;*/
+  /*}*/
+
+  /*.el-tooltip__popper {*/
+    /*position: absolute;*/
+    /*border-radius: 4px;*/
+    /*padding: 10px;*/
+    /*z-index: 2000;*/
+    /*font-size: 12px;*/
+    /*line-height: 1.2;*/
+    /*min-width: 10px;*/
+    /*word-wrap: break-word;*/
+  /*}*/
 
 
 </style>
