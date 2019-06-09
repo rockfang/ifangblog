@@ -4,7 +4,7 @@
 
       <span class="site-header-brand-icon">
         <a href="/manager">
-          <img src="../../../assets/images/cabbage.png" alt="">
+          <img src="../../assets/images/cabbage.png" alt="">
         </a>
       </span>
 
@@ -12,7 +12,7 @@
 
     </div>
     <div class="site-header-right">
-      <img src="../../../assets/images/portrait.jpg" alt="">
+      <img src="../../assets/images/portrait.jpg" alt="">
       <div class="welcome">
         <span class="comename">欢迎</span>
         <span class="avatarname">admin</span>

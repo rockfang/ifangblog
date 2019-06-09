@@ -6,21 +6,25 @@
       <el-aside width="">
         <div class="leftBar">
           <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo"
-                   @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                   router
+                   :default-active = "path"
+                   @open="handleOpen"
+                   @close="handleClose"
+                   :collapse="isCollapse">
 
-            <el-menu-item index="1">
+            <el-menu-item index="/aaa" key="1">
               <i class="el-icon-notebook-2"></i>
               <span slot="title">控制台</span>
             </el-menu-item>
 
-            <el-submenu index="2">
+            <el-submenu index="/admin">
               <template slot="title">
                 <i class="el-icon-s-custom"></i>
                 <span slot="title">管理员列表</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="2-1">管理员列表</el-menu-item>
-                <el-menu-item index="2-2">增加管理员</el-menu-item>
+                <el-menu-item index="/admin" key="2">管理员列表</el-menu-item>
+                <el-menu-item index="/admin">增加管理员</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -93,7 +97,7 @@
         </el-header>
         <el-main>
 
-          <Article></Article>
+          <router-view></router-view>
 
         </el-main>
         <el-footer height="40px">蜀ICP备19016691号</el-footer>
@@ -105,17 +109,20 @@
 </template>
 
 <script>
-  import Article from '../Article.vue'
-
   export default {
       data() {
         return {
           isCollapse: false,
-          //动态设置整个内容区高度，作用是让el中aside,header,content,footer内容布局能完整展示footer
-          cheight: {
+          path: '/'
+        };
+      },
+      computed: {
+        //动态设置整个内容区高度，作用是让el中aside,header,content,footer内容布局能完整展示footer
+        cheight: function () {
+          return {
             height: window.innerHeight - 60 + 'px'
           }
-        };
+        }
       },
       methods: {
         handleOpen(key, keyPath) {
@@ -123,9 +130,15 @@
         },
         handleClose(key, keyPath) {
           console.log(key, keyPath);
+        },onRouteChanged () {
+          let that = this;
+          that.path  = this.$route.path
         }
-      },components: {
-          Article
+
+      },
+      watch: {
+        // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+        '$route': 'onRouteChanged'
       }
     }
 </script>

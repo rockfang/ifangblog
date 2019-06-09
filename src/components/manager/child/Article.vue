@@ -1,15 +1,12 @@
 <template>
   <div>
-    <!--<v-headNavBar></v-headNavBar>-->
-    <!--<v-articleTagBar></v-articleTagBar>-->
-
     <mavon-editor :toolbars="markdownOption" v-model="handbook" codeStyle='androidstudio' :style="mheight"/>
   </div>
 </template>
 
 <script>
-  import HeadNavBar from '../default/public/HeadNavBar.vue'
-  import ArticelTagBar from '../default/public/ArticelTagBar.vue'
+  import HeadNavBar from '../../default/public/HeadNavBar.vue'
+  import ArticelTagBar from '../../default/public/ArticelTagBar.vue'
 
   export default {
     data() {
