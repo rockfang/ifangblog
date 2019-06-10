@@ -45,6 +45,7 @@ Vue.component(Tooltip.name, Tooltip);
 
 const router = new VueRouter(
   {
+    mode: 'history',
     routes: [
       ...index,
       ...admin
