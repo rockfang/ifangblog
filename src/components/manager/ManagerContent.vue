@@ -6,25 +6,26 @@
       <el-aside width="">
         <div class="leftBar">
           <el-menu background-color="transparent" default-active="2-4-1" class="el-menu-vertical-demo"
-                   router
-                   :default-active = "path"
+                   :router="true"
                    @open="handleOpen"
                    @close="handleClose"
-                   :collapse="isCollapse">
+                   :collapse="isCollapse"
+                   :default-active="$route.path"
+                   @select="handleMenuSelect">
 
-            <el-menu-item index="/aaa" key="1">
+            <el-menu-item index="/manager">
               <i class="el-icon-notebook-2"></i>
               <span slot="title">控制台</span>
             </el-menu-item>
 
-            <el-submenu index="/admin">
+            <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-s-custom"></i>
                 <span slot="title">管理员列表</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/admin" key="2">管理员列表</el-menu-item>
-                <el-menu-item index="/admin">增加管理员</el-menu-item>
+                <el-menu-item index="/manager/admin">管理员列表</el-menu-item>
+                <el-menu-item index="/manager/admin/add">增加管理员</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -35,8 +36,8 @@
                 <span slot="title">文章分类管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="3-1">分类列表</el-menu-item>
-                <el-menu-item index="3-2">增加分类</el-menu-item>
+                <el-menu-item index="/manager/articletype">分类列表</el-menu-item>
+                <el-menu-item index="/manager/articletype/add">增加分类</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -47,8 +48,8 @@
                 <span slot="title">文章管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="4-1">文章列表</el-menu-item>
-                <el-menu-item index="4-2">增加文章</el-menu-item>
+                <el-menu-item index="/manager/article">文章列表</el-menu-item>
+                <el-menu-item index="/manager/article/add">增加文章</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -59,8 +60,8 @@
                 <span slot="title">友情链接管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="5-1">友情链接列表</el-menu-item>
-                <el-menu-item index="5-2">增加友情链接</el-menu-item>
+                <el-menu-item index="/manager/link">友情链接列表</el-menu-item>
+                <el-menu-item index="/manager/link/add">增加友情链接</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -71,12 +72,12 @@
                 <span slot="title">导航管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="6-1">导航列表</el-menu-item>
-                <el-menu-item index="6-2">增加导航</el-menu-item>
+                <el-menu-item index="/manager/nav">导航列表</el-menu-item>
+                <el-menu-item index="/manager/nav/add">增加导航</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
-            <el-menu-item index="7">
+            <el-menu-item index="/manager/setting">
               <i class="el-icon-s-tools"></i>
               <span slot="title">系统设置</span>
             </el-menu-item>
@@ -89,12 +90,13 @@
         <el-header height="40px">
           <i @click="isCollapse = !isCollapse"  :class="{'el-icon-s-fold':!isCollapse,'el-icon-s-unfold':isCollapse}"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item >活动管理</el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/manager' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in breads">
+              {{item}}
+            </el-breadcrumb-item>
           </el-breadcrumb>
         </el-header>
+
         <el-main>
 
           <router-view></router-view>
@@ -113,8 +115,12 @@
       data() {
         return {
           isCollapse: false,
-          path: '/'
+          breads:[],
         };
+      },
+      created: function() {
+        //处理刷新面包屑显示问题
+        this.handleMenuSelect(this.$route.path);
       },
       computed: {
         //动态设置整个内容区高度，作用是让el中aside,header,content,footer内容布局能完整展示footer
@@ -126,19 +132,59 @@
       },
       methods: {
         handleOpen(key, keyPath) {
-          console.log(key, keyPath);
+          //console.log(key, keyPath);
         },
         handleClose(key, keyPath) {
-          console.log(key, keyPath);
-        },onRouteChanged () {
-          let that = this;
-          that.path  = this.$route.path
+          //console.log(key, keyPath);
+        },
+        //面包屑显示
+        handleMenuSelect(index,indexPath){
+          this.breads = [];
+          let arr = index.substr(1).split('/');//["manager", "link"]
+          // if (arr.indexOf('manager') > -1) {
+          //   this.breads.push('首页');
+          // }
+          //管理员
+          if (arr.indexOf('admin') > -1){
+            this.breads.push('管理员列表');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加管理员');
+            }
+          }
+          //文章分类
+          if (arr.indexOf('articletype') > -1){
+            this.breads.push('文章分类列表');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加文章分类');
+            }
+          }
+          //文章列表
+          if (arr.indexOf('article') > -1){
+            this.breads.push('文章列表');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加文章');
+            }
+          }
+          //友情链接列表
+          if (arr.indexOf('link') > -1){
+            this.breads.push('友情链接列表');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加友情链接');
+            }
+          }
+          //导航列表
+          if (arr.indexOf('nav') > -1){
+            this.breads.push('导航栏列表');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加导航');
+            }
+          }
+          //导航列表
+          if (arr.indexOf('setting') > -1){
+            this.breads.push('系统设置');
+          }
         }
 
-      },
-      watch: {
-        // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-        '$route': 'onRouteChanged'
       }
     }
 </script>
@@ -162,6 +208,7 @@
         min-height: 100%;
       }
 
+      /*修改含子菜单条目颜色 el-submenu*/
       .el-submenu__title * {
         color: white;
       }
@@ -181,6 +228,7 @@
         outline: 0 !important;
         color: #409EFF !important;
       }
+      /*鼠标选中条目样式*/
       .el-menu-item.is-active {
         color: #fff !important;
         background: #409EFF !important;
@@ -191,6 +239,7 @@
         color: #409EFF !important;
         background: none !important;
       }
+
     }
 
 
