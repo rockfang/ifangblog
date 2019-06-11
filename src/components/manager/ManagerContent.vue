@@ -97,13 +97,14 @@
           </el-breadcrumb>
         </el-header>
 
-        <el-main @sendValueToParent = "getValueFromChild"
-                 v-loading="loading"
+        <el-main  v-loading="loading"
                  element-loading-text="Loading..."
                  element-loading-spinner="el-icon-loading"
                  element-loading-background="rgba(0, 0, 0, 0.8)">
 
-          <router-view></router-view>
+          <router-view :showLoading="showLoading"
+                       :hideLoading="hideLoading">
+          </router-view>
 
         </el-main>
         <el-footer height="40px">蜀ICP备19016691号</el-footer>
@@ -136,9 +137,11 @@
         }
       },
       methods: {
-        getValueFromChild(loading){
-          console.log('getValueFromChild:' + loading);
-          this.loading = loading;
+        showLoading(){
+          this.loading = true;
+        },
+        hideLoading(){
+          this.loading = false;
         },
         handleOpen(key, keyPath) {
           //console.log(key, keyPath);

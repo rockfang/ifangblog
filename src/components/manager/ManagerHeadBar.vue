@@ -11,11 +11,11 @@
       <span class="site-header-brand-motto">　　ICAIFUN管理系统</span>
 
     </div>
-    <div class="site-header-right">
+    <div class="site-header-right" v-if="username">
       <img src="../../assets/images/portrait.jpg" alt="">
       <div class="welcome">
         <span class="comename">欢迎</span>
-        <span class="avatarname">admin</span>
+        <span class="avatarname">{{username}}</span>
       </div>
 
       <el-dropdown trigger="click">
@@ -34,14 +34,31 @@
 </template>
 
 <script>
+
+  import Config from '../../module/config.js'
+  import notifyTool from '../../module/notifyTool.js'
   export default {
     data: function () {
       return {
-
+        username: localStorage.getItem('username') ? localStorage.getItem('username') : '',
+        LOGIN_OUT_URL: Config.BASE_URL + 'admin/login/loginOut',
       }
     },methods: {
       clickDropItem:function (index) {
-        console.log(index);
+        if(index == 2) {
+          this.loginOut();
+        }
+      },loginOut: function () {
+        this.$http.get(this.LOGIN_OUT_URL).then(response => {
+          console.log(response.body);
+          if(response.body.success) {
+            notifyTool.normalTips(this,'退出成功','您已退出登录！');
+            localStorage.removeItem('username');
+            this.$router.push({ path: '/login'})
+          }
+        },response => {
+
+        });
       }
     }
   }

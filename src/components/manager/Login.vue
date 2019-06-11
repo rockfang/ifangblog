@@ -48,7 +48,7 @@
       };
 
       return {
-        LOGIN_URL: Config.BASE_URL + 'doLogin',
+        LOGIN_URL: Config.BASE_URL + 'admin/login/doLogin',
         loading:false,
         ruleForm: {
           username: '',
@@ -75,8 +75,11 @@
               pass: this.ruleForm.pass,
              }).then(response => {
               this.loading = false;
+              console.log(response.body);
+
               if(response.body.success) {
                 notifyTool.successTips(this,'登录成功','恭喜您登录成功！');
+                localStorage.setItem('username',response.body.username);
                 this.$router.push({ path: '/manager'})
               } else {
                 notifyTool.errorTips(this,'登录失败','很遗憾,登录失败');

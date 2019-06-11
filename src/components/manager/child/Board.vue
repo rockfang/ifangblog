@@ -17,21 +17,16 @@
         }
       },methods: {
           requestBoardData: function () {
-            console.log('requestBoardData');
-            this.changeLoading(true);
+            this.showLoading();
 
             let vm = this;
             setTimeout(function () {
-              vm.changeLoading(false);
+              vm.hideLoading();
             },5000);
-          },changeLoading:function (loading) {
-          console.log('changeLoading');
-
-          this.$emit('sendValueToParent',loading);
-        }
+          }
       },mounted() {
           this.requestBoardData();
-      }
+      },props: ['showLoading','hideLoading']
     }
 </script>
 
