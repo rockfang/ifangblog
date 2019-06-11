@@ -12,7 +12,8 @@ Vue.use(mavonEditor);
 //element-ui使用
 import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,
   MenuItem,RadioGroup,RadioButton,MenuItemGroup ,
-  Container,Aside,Header,Main,Footer,Breadcrumb,BreadcrumbItem,Col,Tooltip
+  Container,Aside,Header,Main,Footer,Breadcrumb,BreadcrumbItem,Col,Tooltip,
+  Table,TableColumn,Popover,Tag,
 } from 'element-ui';
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);
@@ -41,6 +42,10 @@ Vue.component(BreadcrumbItem.name, BreadcrumbItem);
 Vue.component(Col.name, Col);
 Vue.component(Tooltip.name, Tooltip);
 
+Vue.component(Table.name, Table);
+Vue.component(TableColumn.name, TableColumn);
+Vue.component(Popover.name, Popover);
+Vue.component(Tag.name, Tag);
 
 
 const router = new VueRouter(

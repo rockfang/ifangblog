@@ -31,7 +31,7 @@
         }
         setTimeout(() => {
           if (value.length < 3) {
-            callback(new Error('用户名长度须大于3位'));
+            callback(new Error('用户名长度须不小于3位'));
           } else {
             callback();
           }
