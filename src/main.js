@@ -5,6 +5,10 @@ Vue.use(VueRouter);
 import index from './routes/index.js'
 import admin from './routes/admin.js'
 
+//vue-rource使用
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+
 //mavonEditor使用
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -13,7 +17,7 @@ Vue.use(mavonEditor);
 import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,
   MenuItem,RadioGroup,RadioButton,MenuItemGroup ,
   Container,Aside,Header,Main,Footer,Breadcrumb,BreadcrumbItem,Col,Tooltip,
-  Table,TableColumn,Popover,Tag,
+  Table,TableColumn,Popover,Tag,Notification,Loading
 } from 'element-ui';
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);
@@ -47,6 +51,11 @@ Vue.component(TableColumn.name, TableColumn);
 Vue.component(Popover.name, Popover);
 Vue.component(Tag.name, Tag);
 
+Vue.component(Notification.name, Notification);
+Vue.prototype.$notify = Notification;
+
+Vue.use(Loading.directive);
+Vue.prototype.$loading = Loading.service;
 
 const router = new VueRouter(
   {

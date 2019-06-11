@@ -91,13 +91,17 @@
           <i @click="isCollapse = !isCollapse"  :class="{'el-icon-s-fold':!isCollapse,'el-icon-s-unfold':isCollapse}"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/manager' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="item in breads">
+1            <el-breadcrumb-item v-for="(item,index) in breads" :key="index">
               {{item}}
             </el-breadcrumb-item>
           </el-breadcrumb>
         </el-header>
 
-        <el-main>
+        <el-main @sendValueToParent = "getValueFromChild"
+                 v-loading="loading"
+                 element-loading-text="Loading..."
+                 element-loading-spinner="el-icon-loading"
+                 element-loading-background="rgba(0, 0, 0, 0.8)">
 
           <router-view></router-view>
 
@@ -116,6 +120,7 @@
         return {
           isCollapse: false,
           breads:[],
+          loading:false
         };
       },
       created: function() {
@@ -131,6 +136,10 @@
         }
       },
       methods: {
+        getValueFromChild(loading){
+          console.log('getValueFromChild:' + loading);
+          this.loading = loading;
+        },
         handleOpen(key, keyPath) {
           //console.log(key, keyPath);
         },

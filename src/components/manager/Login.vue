@@ -14,7 +14,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width: 100%" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button type="primary" style="width: 100%" @click="submitForm('ruleForm')"  :loading="loading">提交</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -22,9 +22,10 @@
 </template>
 
 <script>
+  import Config from '../../module/config.js'
+  import notifyTool from '../../module/notifyTool.js'
   export default {
     data() {
-
       var validateUser = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('请输入用户名'));
@@ -47,6 +48,8 @@
       };
 
       return {
+        LOGIN_URL: Config.BASE_URL + 'doLogin',
+        loading:false,
         ruleForm: {
           username: '',
           pass: '',
@@ -65,9 +68,29 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            // POST /someUrl
+            this.loading = true;
+            this.$http.post(this.LOGIN_URL, {
+              username: this.ruleForm.username,
+              pass: this.ruleForm.pass,
+             }).then(response => {
+              this.loading = false;
+              if(response.body.success) {
+                notifyTool.successTips(this,'登录成功','恭喜您登录成功！');
+                this.$router.push({ path: '/manager'})
+              } else {
+                notifyTool.errorTips(this,'登录失败','很遗憾,登录失败');
+              }
+
+            }, response => {
+              this.loading = false;
+              console.log(response);
+              notifyTool.errorTips(this,'登录失败','很遗憾,登录失败');
+
+            });
           } else {
             console.log('error submit!!');
+            notifyTool.errorTips(this,'登录失败','请核对用户名及密码');
             return false;
           }
         });
