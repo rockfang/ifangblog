@@ -17,7 +17,7 @@ Vue.use(mavonEditor);
 import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,
   MenuItem,RadioGroup,RadioButton,MenuItemGroup ,
   Container,Aside,Header,Main,Footer,Breadcrumb,BreadcrumbItem,Col,Tooltip,
-  Table,TableColumn,Popover,Tag,Notification,Loading
+  Table,TableColumn,Popover,Tag,Notification,Loading,Option
 } from 'element-ui';
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);
@@ -50,6 +50,7 @@ Vue.component(Table.name, Table);
 Vue.component(TableColumn.name, TableColumn);
 Vue.component(Popover.name, Popover);
 Vue.component(Tag.name, Tag);
+Vue.component(Option.name, Option);
 
 Vue.component(Notification.name, Notification);
 Vue.prototype.$notify = Notification;
@@ -66,6 +67,18 @@ const router = new VueRouter(
     ]
   }
 );
+/**
+ * vue-resource拦截器
+ */
+Vue.http.interceptors.push((request, next) => {
+  console.log('come in interceptors');
+  next((response) => {
+    if(response.code == 1002) {
+      this.$router.push('/login');
+      return response
+    }
+  });
+});
 
 new Vue({
   el: '#app',

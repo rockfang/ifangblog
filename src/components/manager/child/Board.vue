@@ -22,7 +22,7 @@
             let vm = this;
             setTimeout(function () {
               vm.hideLoading();
-            },5000);
+            },500);
           }
       },mounted() {
           this.requestBoardData();

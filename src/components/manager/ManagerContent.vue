@@ -91,7 +91,7 @@
           <i @click="isCollapse = !isCollapse"  :class="{'el-icon-s-fold':!isCollapse,'el-icon-s-unfold':isCollapse}"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/manager' }">首页</el-breadcrumb-item>
-1            <el-breadcrumb-item v-for="(item,index) in breads" :key="index">
+            <el-breadcrumb-item v-for="(item,index) in breads" :key="index">
               {{item}}
             </el-breadcrumb-item>
           </el-breadcrumb>

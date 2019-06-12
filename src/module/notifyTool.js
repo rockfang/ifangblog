@@ -6,7 +6,9 @@ let notifyTool = {
     vm.$notify({
       title: title,
       message: tips,
-      type: 'success'
+      type: 'success',
+      position: 'top-left',
+      duration:2000
     });
   },
 
@@ -17,7 +19,9 @@ let notifyTool = {
     vm.$notify({
       title: title,
       message: tips,
-      type: 'warning'
+      type: 'warning',
+      position: 'top-left',
+      duration:2000
     });
   },
 
@@ -28,6 +32,8 @@ let notifyTool = {
     vm.$notify.info({
       title: title,
       message: tips,
+      position: 'top-left',
+      duration:2000
     });
   },
 
@@ -38,6 +44,8 @@ let notifyTool = {
     vm.$notify.error({
       title: title,
       message: tips,
+      position: 'top-left',
+      duration:2000
     });
   },
 };

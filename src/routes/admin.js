@@ -10,6 +10,7 @@ import Article from '../components/manager/child/Article.vue'
 import ArticleAdd from '../components/manager/child/ArticleAdd.vue'
 import Admin from '../components/manager/child/Admin.vue'
 import AdminAdd from '../components/manager/child/AdminAdd.vue'
+import AdminEdit from '../components/manager/child/AdminEdit.vue'
 
 import Link from '../components/manager/child/Link.vue'
 import LinkAdd from '../components/manager/child/LinkAdd.vue'
@@ -27,6 +28,7 @@ const routes = [
       { path: '/', component: Board },
       { path: 'admin', component: Admin },
       { path: 'admin/add', component: AdminAdd },
+      { path: 'admin/edit', component: AdminEdit },
 
       { path: 'articletype', component: ArticleType },
       { path: 'articletype/add', component: ArticleTypeAdd },
