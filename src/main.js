@@ -67,20 +67,24 @@ const router = new VueRouter(
     ]
   }
 );
+
+
+import notifyTool from './module/notifyTool.js'
 /**
  * vue-resource拦截器
  */
 Vue.http.interceptors.push((request, next) => {
   console.log('come in interceptors');
   next((response) => {
-    if(response.code == 1002) {
-      this.$router.push('/login');
+    if(response.body.code == 1002) {
+      notifyTool.errorTips2(vm,'请登录','未登录或登录失效,请登录');
+      router.push('/login');
       return response
     }
   });
 });
 
-new Vue({
+let vm = new Vue({
   el: '#app',
   router,
   render: h => h(App)
