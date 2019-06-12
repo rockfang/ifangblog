@@ -8,7 +8,7 @@ import admin from './routes/admin.js'
 //vue-rource使用
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
-
+Vue.http.options.withCredentials = true;//处理跨域session失效问题.含义是允许传跨域传cookie
 //mavonEditor使用
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
