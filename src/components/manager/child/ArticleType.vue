@@ -33,8 +33,8 @@
         width="80"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeState(scope.row)" v-if="!scope.row.lock" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeState(scope.row)" v-else class="el-icon-lock" style="color: #C76E00"></i>
+          <i @click="changeLock(scope.row)" v-if="scope.row.lock == 0" class="el-icon-success" style="color: #5CB6FF"></i>
+          <i @click="changeLock(scope.row)" v-else class="el-icon-lock" style="color: #C76E00"></i>
         </template>
       </el-table-column>
 
@@ -57,6 +57,7 @@
 <script>
   import Config from '../../../module/config.js'
   import notifyTool from '../../../module/notifyTool.js'
+  import msgTool from '../../../module/msgTool.js'
   export default {
     data() {
       return {
@@ -82,16 +83,28 @@
         console.log(index, row);
       },
       handleDelete(index, row) {
-        this.$http.get(this.DELETE_URL + '?id='+ row.id).then(response => {
-          if (response.body.success) {
-            notifyTool.successTips(this,'成功',response.body.msg);
-            this.initData();
-          } else {
-            notifyTool.errorTips(this,'失败',response.body.msg);
-          }
-        },response => {
-          notifyTool.errorTips(this,'失败','删除失败');
+
+        this.$confirm('此操作将永久删除该分类及其子分类, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+            if (response.body.success) {
+              msgTool.successTips(this,'删除成功!');
+              this.initData();
+            } else {
+              msgTool.errorTips(this,response.body.msg);
+            }
+          },response => {
+            msgTool.errorTips(this,'删除失败');
+          });
+
+        }).catch(() => {
+          msgTool.normalTips(this,'已取消删除');
         });
+
       }, tableRowClassName({row, rowIndex}) {
         if(this.tableData[rowIndex]) {
           if(this.tableData[rowIndex].state == '0') {
@@ -103,8 +116,8 @@
         return '';
       },changeState: function (row) {
         this.$http.post(this.CHANGE_STATE_URL,{
-          id: row.id,
-          collectionName:'admin',
+          id: row._id,
+          collectionName:'articletype',
           attr: 'state'
         }).then(response => {
           if (response.body.success) {
@@ -113,6 +126,22 @@
               row.state = '0';
             } else {
               row.state = '1';
+            }
+          }
+        },response => {
+        });
+      },changeLock: function (row) {
+        this.$http.post(this.CHANGE_STATE_URL,{
+          id: row._id,
+          collectionName:'articletype',
+          attr: 'lock'
+        }).then(response => {
+          if (response.body.success) {
+            notifyTool.successTips(this,'成功',response.body.msg);
+            if (row.lock == '1') {
+              row.lock = '0';
+            } else {
+              row.lock = '1';
             }
           }
         },response => {

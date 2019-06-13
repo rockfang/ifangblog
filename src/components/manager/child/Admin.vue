@@ -98,7 +98,7 @@
           return '';
       },changeState: function (row) {
         this.$http.post(this.CHANGE_STATE_URL,{
-          id: row.id,
+          id: row._id,
           collectionName:'admin',
           attr: 'state'
         }).then(response => {
