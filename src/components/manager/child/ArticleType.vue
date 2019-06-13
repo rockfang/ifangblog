@@ -5,41 +5,45 @@
       border
       style="width: 100%"
       :row-class-name="tableRowClassName"
+      row-key="_id"
+      :tree-props="{children: 'list'}"
     >
 
       <el-table-column
-        label="姓名"
+        label="文章分类"
         width="180"
-        align="center">
+        align="left">
         <template slot-scope="scope">
-          <span style="text-align: center">{{ scope.row.username }}</span>
+          <span style="text-align: left">{{ scope.row.title }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="上次登录时间"
-        width="180"
-        align="center">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="text-align: center">{{ scope.row.last_time }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         label="状态"
-        width="180"
+        width="80"
         align="center">
         <template slot-scope="scope">
           <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF"></i>
           <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red"></i>
         </template>
       </el-table-column>
+
+      <el-table-column
+        label="公开"
+        width="80"
+        align="center">
+        <template slot-scope="scope">
+          <i @click="changeState(scope.row)" v-if="!scope.row.lock" class="el-icon-success" style="color: #5CB6FF"></i>
+          <i @click="changeState(scope.row)" v-else class="el-icon-lock" style="color: #C76E00"></i>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作"
                        align="left">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">修改密码</el-button>
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -56,17 +60,18 @@
   export default {
     data() {
       return {
-        MANAGER_URL: Config.BASE_URL + 'admin/manager',
+        ARTICLE_TYPE_URL: Config.BASE_URL + 'admin/articletype',
         CHANGE_STATE_URL: Config.BASE_URL + 'admin/changeState',
-        DELETE_URL: Config.BASE_URL + 'admin/manager/delete',
-        tableData: []
-      }
+        DELETE_URL: Config.BASE_URL + 'admin/articletype/delete',
+        tableData: [] //
+       }
     },
     methods: {
       initData() {
-        this.$http.get(this.MANAGER_URL).then(response => {
+        this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
           if (response.body.success) {
-            this.tableData = response.body.managers;
+            this.tableData = response.body.articletypes;
+            console.log(this.tableData);
           }
         },response => {
 
