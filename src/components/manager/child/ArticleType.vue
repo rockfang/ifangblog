@@ -79,8 +79,7 @@
         });
       },
       handleEdit(index, row) {
-        this.$router.push({path:'/manager/admin/edit',query: { id: row.id, username: row.username}});
-        console.log(index, row);
+        this.$router.push({path:'/manager/articletype/edit',query: { id: row._id}});
       },
       handleDelete(index, row) {
 

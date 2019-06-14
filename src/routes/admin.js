@@ -4,10 +4,15 @@
 import Login from '../components/manager/Login.vue'
 import Manager from '../components/manager/Manager.vue'
 import Board from '../components/manager/child/Board.vue'
+
 import ArticleType from '../components/manager/child/ArticleType.vue'
 import ArticleTypeAdd from '../components/manager/child/ArticleTypeAdd.vue'
+import ArticleTypeEdit from '../components/manager/child/ArticleTypeEdit.vue'
+
+
 import Article from '../components/manager/child/Article.vue'
 import ArticleAdd from '../components/manager/child/ArticleAdd.vue'
+
 import Admin from '../components/manager/child/Admin.vue'
 import AdminAdd from '../components/manager/child/AdminAdd.vue'
 import AdminEdit from '../components/manager/child/AdminEdit.vue'
@@ -32,6 +37,7 @@ const routes = [
 
       { path: 'articletype', component: ArticleType },
       { path: 'articletype/add', component: ArticleTypeAdd },
+      { path: 'articletype/edit', component: ArticleTypeEdit },
 
       { path: 'article', component: Article },
       { path: 'article/add', component: ArticleAdd },

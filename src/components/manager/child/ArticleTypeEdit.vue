@@ -3,17 +3,17 @@
     分类名称：
     <el-input
       type="text"
-      v-model="typeName"
+      v-model="cType.title"
       maxlength="15"
       show-word-limit
+      disabled
     >
     </el-input>
 
     <div style="margin: 20px 0;"></div>
     <div style="float: left">
       　上级分类：
-      <el-select v-model="parentType" placeholder="请选择"
-                 @change="getValue">
+      <el-select v-model="parentType" placeholder="请选择">
         <el-option
           key="-1"
           label="顶层分类"
@@ -71,7 +71,7 @@
     >
     </el-input>
     <div style="text-align: right;margin-top: 20px">
-      <el-button type="primary" class="commit-btn" @click="doAdd">提交</el-button>
+      <el-button type="primary" class="commit-btn" @click="doEdit">提交</el-button>
     </div>
   </div>
 </template>
@@ -83,13 +83,13 @@
     data() {
       return {
         pTypes:[],
-        typeName: '',
+        cType: '',
         parentType: '',
         description: '',
         state: '0',
         lock: '0',
-        pid:'',
-        ADD_URL: Config.BASE_URL + 'admin/articletype/doAdd',
+        EDIT_URL: Config.BASE_URL + 'admin/articletype/doEdit',
+        ARTICLE_CTYPE_URL: Config.BASE_URL + 'admin/articletype/getctype',
         ARTICLE_PTYPE_URL: Config.BASE_URL + 'admin/articletype/getPtypes',
       }
     },methods: {
@@ -97,28 +97,37 @@
         this.$http.get(this.ARTICLE_PTYPE_URL).then(response => {
           if (response.body.success) {
             this.pTypes = response.body.ptypes;
+            this.getCtype();
           }
         },response => {
 
         });
       },
-      getValue:function(value) {
-        this.pid = value;
-      },
-      doAdd:function () {
-        if (!this.typeName) {
-          notifyTool.normalTips(this,'','请填写分类名称');
-          return;
-        }
+      getCtype:function() {
+        this.$http.get(this.ARTICLE_CTYPE_URL + '?id=' + this.$route.query.id).then(response => {
+          if (response.body.success) {
+            this.cType = response.body.ctype;
+            this.parentType = this.cType.pid;
+            this.state = this.cType.state;
+            this.lock = this.cType.lock;
+            this.description = this.cType.description;
+          } else {
+            notifyTool.errorTips(this,'错误',response.body.msg);
+          }
+        },response => {
+          notifyTool.errorTips(this,'错误','未获取到数据');
 
+        });
+      },
+      doEdit:function () {
         if (!this.parentType) {
           notifyTool.normalTips(this,'','请选择上层分类');
           return;
         }
 
-        this.$http.post(this.ADD_URL,{
-          title: this.typeName,
-          pid: this.pid,
+        this.$http.post(this.EDIT_URL,{
+          id: this.$route.query.id,
+          pid: this.parentType,
           state: this.state,
           description: this.description,
           lock: this.lock
@@ -130,7 +139,7 @@
             notifyTool.errorTips(this,'失败',response.body.msg);
           }
         },response => {
-          notifyTool.errorTips(this,'添加失败','信息提交失败');
+          notifyTool.errorTips(this,'修改失败','信息修改失败');
         });
 
       }
