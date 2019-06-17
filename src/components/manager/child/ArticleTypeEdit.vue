@@ -20,10 +20,12 @@
           value="0">
         </el-option>
         <template v-for="(item,index) in pTypes">
+          <!--若当前修改的是顶层分类，不能选自己作为顶层分类-->
           <el-option
             :key="index"
             :label="item.title"
-            :value="item._id">
+            :value="item._id"
+            v-if="item._id != $route.query.id">
           </el-option>
         </template>
       </el-select>
@@ -97,6 +99,7 @@
         this.$http.get(this.ARTICLE_PTYPE_URL).then(response => {
           if (response.body.success) {
             this.pTypes = response.body.ptypes;
+            console.log(this.pTypes);
             this.getCtype();
           }
         },response => {
