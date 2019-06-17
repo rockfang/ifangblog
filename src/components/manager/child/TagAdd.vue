@@ -1,6 +1,6 @@
 <template>
   <div class="add-con">
-    分类名称：
+    标签名称：
     <el-input
       type="text"
       v-model="typeName"
@@ -9,28 +9,7 @@
     >
     </el-input>
 
-    <div style="margin: 20px 0;"></div>
-    <div style="float: left">
-      　上级分类：
-      <el-select v-model="parentType" placeholder="请选择"
-                 @change="getValue">
-        <el-option
-          key="-1"
-          label="顶层分类"
-          value="0">
-        </el-option>
-        <template v-for="(item,index) in pTypes">
-          <el-option
-            :key="index"
-            :label="item.title"
-            :value="item._id">
-          </el-option>
-        </template>
-      </el-select>
-    </div>
-
-    <div style="margin-top: 80px;"></div>
-    <div style="float: left">
+    <div class="state-row">
       　　　状态：
       <el-select v-model="state" placeholder="请选择">
         <el-option
@@ -46,32 +25,38 @@
       </el-select>
     </div>
 
-    <div style="margin-top: 140px"></div>
-    <div style="float: left">
-      　是否公开：
-      <el-select v-model="lock" placeholder="请选择">
-        <el-option
-          key="0"
-          label="公开"
-          value='0'>
-        </el-option>
-        <el-option
-          key="1"
-          label="不公开"
-          value='1'>
-        </el-option>
-      </el-select>
+    <div style="margin-top: 80px"></div>
+      　序号：
+      <el-input
+        type="text"
+        v-model="sort"
+      >
+      </el-input>
+
+    <div class="icon-row">
+      　　　图标：<span>(只能上传jpg/png文件，且不超过500kb)</span>
     </div>
-    <div style="margin-top: 200px"></div>
-    简要说明：
-    <el-input
-      type="text"
-      v-model="description"
-      show-word-limit
-    >
-    </el-input>
-    <div style="text-align: right;margin-top: 20px">
-      <el-button type="primary" class="commit-btn" @click="doAdd">提交</el-button>
+    <div class="upload-row">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        name="tag_icon"
+        action=""
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :on-change="fileChange"
+        :file-list="fileList"
+        :on-exceed="handleExceed"
+        :limit="1"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+      </el-upload>
+    </div>
+
+
+    <div style="text-align: right;margin-top: 20px;">
+      <el-button type="primary" class="commit-btn" @click="submitUpload">提交</el-button>
     </div>
   </div>
 </template>
@@ -79,31 +64,27 @@
 <script>
   import Config from '../../../module/config.js'
   import notifyTool from '../../../module/notifyTool.js'
+  import msgTool from '../../../module/msgTool.js'
+
   export default {
     data() {
       return {
+        fileList:[],
+
         pTypes:[],
         typeName: '',
         parentType: '',
         description: '',
         state: '0',
         lock: '0',
+        sort:'',
         pid:'',
         ADD_URL: Config.BASE_URL + 'admin/articletype/doAdd',
         ARTICLE_PTYPE_URL: Config.BASE_URL + 'admin/articletype/getPtypes',
       }
     },methods: {
       init:function() {
-        this.$http.get(this.ARTICLE_PTYPE_URL).then(response => {
-          if (response.body.success) {
-            this.pTypes = response.body.ptypes;
-          }
-        },response => {
 
-        });
-      },
-      getValue:function(value) {
-        this.pid = value;
       },
       doAdd:function () {
         if (!this.typeName) {
@@ -133,6 +114,40 @@
           notifyTool.errorTips(this,'添加失败','信息提交失败');
         });
 
+      },
+
+      fileChange(file){
+        console.log('fileChange  ' + file);
+
+        this.fileList.push(file.raw);//上传文件变化时将文件对象push进files数组
+      },
+      handleExceed(files, fileList) {
+        msgTool.warnTips(this,`当前限制选择 1 个文件，如需更换请先移除选择的文件`)
+      },
+      submitUpload() {
+        // this.$refs.upload.submit();
+        //带参数上传 & 权限回调处理
+
+        let formData = new FormData();
+        console.log(this.fileList[0]);
+        formData.append('tag_icon',this.fileList[0]);
+        formData.append('name', this.name);
+        // specify Content-Type, with formData as well
+        this.$http.post('http://localhost:3005/admin/tag/addPic', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }).then(function (res) {
+          console.log(res.body);
+        }, function (res) {
+          console.log(res.body);
+        });
+      },
+      handleRemove() {
+        console.log('handleRemove  ');
+
+        this.fileList.splice(0,1);
+      },
+      handlePreview(file) {
+        console.log('handlePreview  ' + file);
       }
     },mounted() {
       this.init();
@@ -144,11 +159,43 @@
   .add-con {
     width: 400px;
     text-align: right;
+
+    .state-row,.icon-row {
+      float: left;
+      margin-top: 20px;
+
+      span {
+        font-size: 10px
+      }
+    }
+
+    .upload-row {
+      margin-top: 60px;
+
+      .upload-label {
+        margin-left: 0px;
+      }
+
+      .upload-demo {
+
+        width: 300px;
+        display: inline-block;
+        text-align: left;
+      }
+
+      .el-upload__tip {
+        display: inline-block;
+        font-size: 14px;
+      }
+    }
+
     .el-input {
       width: 300px;
     }
+
     .commit-btn {
       width: 120px;
     }
+
   }
 </style>
