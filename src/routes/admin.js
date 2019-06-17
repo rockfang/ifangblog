@@ -9,6 +9,9 @@ import ArticleType from '../components/manager/child/ArticleType.vue'
 import ArticleTypeAdd from '../components/manager/child/ArticleTypeAdd.vue'
 import ArticleTypeEdit from '../components/manager/child/ArticleTypeEdit.vue'
 
+import Tag from '../components/manager/child/Tag.vue'
+import TagAdd from '../components/manager/child/TagAdd.vue'
+import TagEdit from '../components/manager/child/TagEdit.vue'
 
 import Article from '../components/manager/child/Article.vue'
 import ArticleAdd from '../components/manager/child/ArticleAdd.vue'
@@ -38,6 +41,10 @@ const routes = [
       { path: 'articletype', component: ArticleType },
       { path: 'articletype/add', component: ArticleTypeAdd },
       { path: 'articletype/edit', component: ArticleTypeEdit },
+
+      { path: 'tag', component: Tag },
+      { path: 'tag/add', component: TagAdd },
+      { path: 'tag/edit', component: TagEdit },
 
       { path: 'article', component: Article },
       { path: 'article/add', component: ArticleAdd },

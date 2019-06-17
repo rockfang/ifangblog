@@ -41,8 +41,19 @@
               </el-menu-item-group>
             </el-submenu>
 
-
             <el-submenu index="4">
+              <template slot="title">
+                <i class="el-icon-collection-tag"></i>
+                <span slot="title">标签管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/manager/tag">标签列表</el-menu-item>
+                <el-menu-item index="/manager/tag/add">增加标签</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+
+            <el-submenu index="5">
               <template slot="title">
                 <i class="el-icon-document"></i>
                 <span slot="title">文章管理</span>
@@ -54,7 +65,7 @@
             </el-submenu>
 
 
-            <el-submenu index="5">
+            <el-submenu index="6">
               <template slot="title">
                 <i class="el-icon-link"></i>
                 <span slot="title">友情链接管理</span>
@@ -66,7 +77,7 @@
             </el-submenu>
 
 
-            <el-submenu index="6">
+            <el-submenu index="7">
               <template slot="title">
                 <i class="el-icon-discover"></i>
                 <span slot="title">导航管理</span>
@@ -158,40 +169,59 @@
           // }
           //管理员
           if (arr.indexOf('admin') > -1){
-            this.breads.push('管理员列表');
+            this.breads.push('管理员管理');
             if (arr.indexOf('add') > -1) {
               this.breads.push('增加管理员');
+            } else {
+              this.breads.push('管理员列表');
             }
           }
           //文章分类
           if (arr.indexOf('articletype') > -1){
-            this.breads.push('文章分类列表');
+            this.breads.push('文章分类管理');
             if (arr.indexOf('add') > -1) {
               this.breads.push('增加文章分类');
+            } else{
+              this.breads.push('文章分类列表');
+            }
+          }
+          //Tag分类
+          if (arr.indexOf('tag') > -1){
+            this.breads.push('标签管理');
+            if (arr.indexOf('add') > -1) {
+              this.breads.push('增加标签');
+            } else {
+              this.breads.push('标签列表');
             }
           }
           //文章列表
           if (arr.indexOf('article') > -1){
-            this.breads.push('文章列表');
+            this.breads.push('文章管理');
             if (arr.indexOf('add') > -1) {
               this.breads.push('增加文章');
+            } else  {
+              this.breads.push('文章列表');
             }
           }
           //友情链接列表
           if (arr.indexOf('link') > -1){
-            this.breads.push('友情链接列表');
+            this.breads.push('友情链接管理');
             if (arr.indexOf('add') > -1) {
               this.breads.push('增加友情链接');
+            } else {
+              this.breads.push('友情链接列表');
             }
           }
           //导航列表
           if (arr.indexOf('nav') > -1){
-            this.breads.push('导航栏列表');
+            this.breads.push('导航栏管理');
             if (arr.indexOf('add') > -1) {
               this.breads.push('增加导航');
+            } else {
+              this.breads.push('导航栏列表');
             }
           }
-          //导航列表
+          //系统设置列表
           if (arr.indexOf('setting') > -1){
             this.breads.push('系统设置');
           }
