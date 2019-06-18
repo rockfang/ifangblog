@@ -34,13 +34,13 @@
       </el-input>
 
     <div class="icon-row">
-      　　　图标：<span>(只能上传jpg/png文件，且不超过500kb)</span>
+      　　　图标：<span>(只能上传jpg/png文件，且不超过500kb。可不选。)</span>
     </div>
     <div class="upload-row">
       <el-upload
         class="upload-demo"
         ref="upload"
-        name="tag_icon"
+        name="tagIcon"
         action=""
         :on-preview="handlePreview"
         :on-remove="handleRemove"
@@ -50,7 +50,6 @@
         :limit="1"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
       </el-upload>
     </div>
 
@@ -65,92 +64,61 @@
   import Config from '../../../module/config.js'
   import notifyTool from '../../../module/notifyTool.js'
   import msgTool from '../../../module/msgTool.js'
+  import commonTool from '../../../module/commonTool.js'
 
   export default {
     data() {
       return {
         fileList:[],
-
-        pTypes:[],
         typeName: '',
-        parentType: '',
-        description: '',
-        state: '0',
-        lock: '0',
+        state: '1',
         sort:'',
-        pid:'',
-        ADD_URL: Config.BASE_URL + 'admin/articletype/doAdd',
-        ARTICLE_PTYPE_URL: Config.BASE_URL + 'admin/articletype/getPtypes',
+        ADD_URL: Config.BASE_URL + 'admin/tag/doAdd',
       }
     },methods: {
-      init:function() {
-
-      },
-      doAdd:function () {
-        if (!this.typeName) {
-          notifyTool.normalTips(this,'','请填写分类名称');
-          return;
-        }
-
-        if (!this.parentType) {
-          notifyTool.normalTips(this,'','请选择上层分类');
-          return;
-        }
-
-        this.$http.post(this.ADD_URL,{
-          title: this.typeName,
-          pid: this.pid,
-          state: this.state,
-          description: this.description,
-          lock: this.lock
-        }).then(response => {
-          if (response.body.success) {
-            notifyTool.successTips(this,'成功',response.body.msg);
-            this.$router.push({path:'/manager/articletype'});
-          } else {
-            notifyTool.errorTips(this,'失败',response.body.msg);
-          }
-        },response => {
-          notifyTool.errorTips(this,'添加失败','信息提交失败');
-        });
-
-      },
 
       fileChange(file){
-        console.log('fileChange  ' + file);
-
         this.fileList.push(file.raw);//上传文件变化时将文件对象push进files数组
       },
       handleExceed(files, fileList) {
         msgTool.warnTips(this,`当前限制选择 1 个文件，如需更换请先移除选择的文件`)
       },
       submitUpload() {
-        // this.$refs.upload.submit();
-        //带参数上传 & 权限回调处理
+        if (!this.typeName) {
+          notifyTool.normalTips(this,'','请填写标签名称');
+          return;
+        }
 
+        if (this.sort && !commonTool.checkNum(this.sort)) {
+          notifyTool.normalTips(this,'','请填写数字排序序号');
+          return;
+        }
         let formData = new FormData();
         console.log(this.fileList[0]);
-        formData.append('tag_icon',this.fileList[0]);
-        formData.append('name', this.name);
+        formData.append('tagIcon',this.fileList[0]);
+        formData.append('typeName', this.typeName);
+        formData.append('state', this.state);
+        formData.append('sort', this.sort);
         // specify Content-Type, with formData as well
-        this.$http.post('http://localhost:3005/admin/tag/addPic', formData, {
+        this.$http.post(this.ADD_URL, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
-        }).then(function (res) {
-          console.log(res.body);
-        }, function (res) {
-          console.log(res.body);
+        }).then(response => {
+          if (response.body.success) {
+            notifyTool.successTips(this,'成功',response.body.msg);
+            this.$router.push({path:'/manager/tag'});
+          } else {
+            notifyTool.errorTips(this,'失败',response.body.msg);
+          }
+        },response => {
+          notifyTool.errorTips(this,'添加失败','信息提交失败');
         });
       },
       handleRemove() {
-        console.log('handleRemove  ');
-
         this.fileList.splice(0,1);
       },
       handlePreview(file) {
-        console.log('handlePreview  ' + file);
       }
     },mounted() {
-      this.init();
     }
   }
 </script>

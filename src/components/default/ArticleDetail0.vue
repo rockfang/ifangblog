@@ -48,10 +48,9 @@
 
         let formData = new FormData();
         console.log(this.fileList[0]);
-        formData.append('tag_icon',this.fileList[0]);
         formData.append('name', this.name);
         // specify Content-Type, with formData as well
-        this.$http.post('http://localhost:3005/admin/tag/addPic', formData, {
+        this.$http.post('http://localhost:3005/admin/tag/doAdd', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         }).then(function (res) {
           console.log(res.body);

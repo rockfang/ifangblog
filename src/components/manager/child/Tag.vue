@@ -68,7 +68,7 @@
         });
       },
       handleEdit(index, row) {
-        this.$router.push({path:'/manager/articletype/edit',query: { id: row._id}});
+        this.$router.push({path:'/manager/tag/edit',query: { id: row._id}});
       },
       handleDelete(index, row) {
 
