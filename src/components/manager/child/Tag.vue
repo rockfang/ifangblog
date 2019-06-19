@@ -27,6 +27,19 @@
         </template>
       </el-table-column>
 
+
+      <el-table-column
+        label="排序"
+        width="80"
+        align="center">
+        <template slot-scope="scope">
+          <el-input size="mini"
+                    :id="scope.row._id"
+                    v-model="scope.row.sort"
+                    @blur="changeSort"></el-input>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作"
                        align="left">
         <template slot-scope="scope">
@@ -40,6 +53,18 @@
         </template>
       </el-table-column>
     </el-table>
+
+
+    <template>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :hide-on-single-page="value"
+        @current-change="currentChange"
+        :page-size="pageSize"
+        :page-count="pageCount">
+      </el-pagination>
+    </template>
   </div>
 </template>
 
@@ -52,19 +77,39 @@
       return {
         TAG_TYPE_URL: Config.BASE_URL + 'admin/tag',
         CHANGE_STATE_URL: Config.BASE_URL + 'admin/changeState',
+        CHANGE_SORT_URL: Config.BASE_URL + 'admin/changeSort',
         DELETE_URL: Config.BASE_URL + 'admin/tag/delete',
-        tableData: [] //
+        tableData: [], //
+
+        pageSize:5,//每页显示多少条前端固定
+        pageCount:0,
+        value: true,
        }
     },
     methods: {
-      initData() {
-        this.$http.get(this.TAG_TYPE_URL).then(response => {
+      currentChange: function (page) {
+        this.getPageTags(page);
+      },getPageTags:function (page) {
+      //请求服务器，获取pageCount,pageSize
+      this.$http.get(this.TAG_TYPE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
+        .then(response => {
           if (response.body.success) {
             this.tableData = response.body.tags;
-            console.log(this.tableData);
+            this.pageCount = response.body.pageCount;
+            console.log("pageCount:" + response.body.pageCount);
           }
         },response => {
 
+        });
+    },changeSort: function(event) {
+        this.$http.post(this.CHANGE_SORT_URL,{
+          id: event.target.id,
+          sort: event.target.value,
+          collectionName:'tag',
+        }).then(response => {
+          if (response.body.success) {
+          }
+        },response => {
         });
       },
       handleEdit(index, row) {
@@ -136,7 +181,7 @@
         });
       }
     },mounted() {
-      this.initData();
+      this.getPageTags(1);
     }
   }
 </script>

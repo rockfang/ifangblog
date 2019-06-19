@@ -10,7 +10,6 @@
       >
       </el-input>
       <div style="margin: 20px 0;"></div>
-
       　　密码：
       <el-input  v-model="password" show-password></el-input>
       <div style="margin: 20px 0;"></div>
