@@ -30,7 +30,7 @@
 
       <el-table-column
         label="排序"
-        width="80"
+        width="60"
         align="center">
         <template slot-scope="scope">
           <el-input size="mini"
