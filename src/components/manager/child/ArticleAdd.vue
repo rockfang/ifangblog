@@ -30,31 +30,72 @@
         </div>
       </div>
 
-      <div class="top-input-con">
-        <div class="top-row">
-          <div class="row-label">关键字:</div>
+      <!--<div class="top-input-con">-->
+        <!--<div class="top-row">-->
+          <!--<div class="row-label">关键字:</div>-->
 
-          <el-input
-            type="text"
-            placeholder="可输入关键字"
-            class="input_title"
-            v-model="keywords">
-          </el-input>
-        </div>
-      </div>
+          <!--<el-input-->
+            <!--type="text"-->
+            <!--placeholder="可输入关键字"-->
+            <!--class="input_title"-->
+            <!--v-model="keywords">-->
+          <!--</el-input>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <div class="last-row">
         <div class="top-input-con">
           <div class="top-row">
             <div style="margin-right: 10px"><span style="color: red">*</span>发布日期:</div>
-
             <el-date-picker
               v-model="publicDate"
               type="date"
               :picker-options="dateOptions"
               placeholder="选择日期">
             </el-date-picker>
+
+            <div style="margin: 10px"><span style="color: red">*</span>类目:</div>
+            <el-select v-model="parentType" placeholder="请选择"
+                       @change="getValue">
+              <template v-for="(item,index) in pTypes">
+                <el-option
+                  :key="index"
+                  :label="item"
+                  :value="item._id">
+                </el-option>
+              </template>
+            </el-select>
           </div>
+
+        </div>
+
+      </div>
+
+      <!--标签选择-->
+      <div class="tag-con">
+        <div style="display: flex; align-items: center;">
+          <div style="margin-right: 40px"><span style="color: red">*</span>标签:</div>
+          <el-tag
+            :key="tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            maxlength="15"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+          <el-button v-if="dynamicTags.length < 5" class="button-new-tag" size="small" @click="showInput">+ 添加Tag</el-button>
+          <el-button v-else class="button-new-tag" disabled size="small" @click="showInput">+ 添加Tag</el-button>
         </div>
 
         <div class="operation">
@@ -84,7 +125,17 @@
       return {
         title:"",
         description: "",
+
         keywords: "",
+        pTypes:["语文","数学"],
+        pid: "0",
+        parentType: "",
+        //标签选择
+        dynamicTags: [],
+        inputVisible: false,
+        inputValue: "",
+        disabled:'disabled',
+
         publicDate: Date.now(),
         dateOptions: {
           disabledDate(time) {
@@ -170,7 +221,36 @@
         //   console.log(this.$refs.md.d_render);
         //
         // });
+      }, getValue:function(value) {
+        this.pid = value;
       },
+
+      //处理标签
+      handleClose(tag) {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      },
+
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.dynamicTags.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
+
+        if(this.dynamicTags.length == 5) {
+
+        }
+
+      }
+
     }
     }
 </script>
@@ -204,14 +284,38 @@
   .last-row {
     width: 100%;
     display: flex;
-    .operation {
-      display: flex;
-      align-items: center;
-      margin-left: 50px;
-    }
+  }
+
+
+  .operation {
+    position: absolute;
+    right: 20%;
   }
 
   .markdown-body {
     /*min-height: 600px;*/
+  }
+
+  /**
+    标签选择
+   */
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+  .tag-con {
+    display:flex;
+    margin: 20px 0;
   }
 </style>
