@@ -17,7 +17,7 @@ Vue.use(mavonEditor);
 import { Button, Select,Form,FormItem,Input,Icon,Dropdown,DropdownItem,DropdownMenu,Menu,Submenu,
   MenuItem,RadioGroup,RadioButton,MenuItemGroup ,
   Container,Aside,Header,Main,Footer,Breadcrumb,BreadcrumbItem,Col,Tooltip,
-  Table,TableColumn,Popover,Tag,Notification,Loading,Option,MessageBox,Message,Upload,Pagination
+  Table,TableColumn,Popover,Tag,Notification,Loading,Option,MessageBox,Message,Upload,Pagination,DatePicker
 } from 'element-ui';
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);
@@ -53,6 +53,8 @@ Vue.component(Tag.name, Tag);
 Vue.component(Option.name, Option);
 Vue.component(Upload.name, Upload);
 Vue.component(Pagination.name, Pagination);
+Vue.component(DatePicker.name, DatePicker);
+
 Vue.component(MessageBox.name, MessageBox);
 Vue.component(Message.name, Message);
 Vue.prototype.$msgbox = MessageBox;
