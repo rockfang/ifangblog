@@ -31,40 +31,49 @@
       </div>
 
       <!--<div class="top-input-con">-->
-        <!--<div class="top-row">-->
-          <!--<div class="row-label">关键字:</div>-->
+      <!--<div class="top-row">-->
+      <!--<div class="row-label">关键字:</div>-->
 
-          <!--<el-input-->
-            <!--type="text"-->
-            <!--placeholder="可输入关键字"-->
-            <!--class="input_title"-->
-            <!--v-model="keywords">-->
-          <!--</el-input>-->
-        <!--</div>-->
+      <!--<el-input-->
+      <!--type="text"-->
+      <!--placeholder="可输入关键字"-->
+      <!--class="input_title"-->
+      <!--v-model="keywords">-->
+      <!--</el-input>-->
+      <!--</div>-->
       <!--</div>-->
 
       <div class="last-row">
         <div class="top-input-con">
           <div class="top-row">
-            <div style="margin-right: 10px"><span style="color: red">*</span>发布日期:</div>
+            <div class="row-label"><span style="color: red">*</span>类目:</div>
+            <el-select v-model="parentType" placeholder="请选择"
+                       @change="getValue"
+                       size="medium">
+              <template v-for="(item,index) in articletypes">
+                <el-option
+                  :label="item.title"
+                  :value="item._id">
+                </el-option>
+
+                <template v-for="(child,cindex) in item.list">
+                  <el-option
+                    :label=" '　' + child.title"
+                    :value="child._id">
+                  </el-option>
+                </template>
+              </template>
+            </el-select>
+
+
+            <div style="margin-left: 30px;width: 100px"><span style="color: red">*</span>发布日期:</div>
             <el-date-picker
               v-model="publicDate"
               type="date"
               :picker-options="dateOptions"
+              size="medium"
               placeholder="选择日期">
             </el-date-picker>
-
-            <div style="margin: 10px"><span style="color: red">*</span>类目:</div>
-            <el-select v-model="parentType" placeholder="请选择"
-                       @change="getValue">
-              <template v-for="(item,index) in pTypes">
-                <el-option
-                  :key="index"
-                  :label="item"
-                  :value="item._id">
-                </el-option>
-              </template>
-            </el-select>
           </div>
 
         </div>
@@ -74,10 +83,10 @@
       <!--标签选择-->
       <div class="tag-con">
         <div style="display: flex; align-items: center;">
-          <div style="margin-right: 40px"><span style="color: red">*</span>标签:</div>
+          <div style="width: 60px"><span style="color: red">*</span>标签:</div>
           <el-tag
-            :key="tag"
             v-for="tag in dynamicTags"
+            :key="tag"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)">
@@ -94,13 +103,14 @@
             @blur="handleInputConfirm"
           >
           </el-input>
-          <el-button v-if="dynamicTags.length < 5" class="button-new-tag" size="small" @click="showInput">+ 添加Tag</el-button>
-          <el-button v-else class="button-new-tag" disabled size="small" @click="showInput">+ 添加Tag</el-button>
+          <el-button v-if="dynamicTags.length < 5" class="button-new-tag" size="small" @click="showInput">+ 添加Tag
+          </el-button>
+          <el-button v-else class="button-new-tag" disabled size="small" @click="showInput">Tag最多5个</el-button>
         </div>
 
         <div class="operation">
-          <el-button type="primary"  size="mini" @click="publish('1')">发布</el-button>
-          <el-button type="warning"  size="mini" class="draft" @click="publish('0')">草稿</el-button>
+          <el-button type="primary" size="mini" @click="publish('1')">发布</el-button>
+          <el-button type="warning" size="mini" class="draft" @click="publish('0')">草稿</el-button>
         </div>
       </div>
     </div>
@@ -120,21 +130,31 @@
   import HeadNavBar from '../../default/public/HeadNavBar.vue'
   import ArticelTagBar from '../../default/public/ArticelTagBar.vue'
 
+
+  import Config from '../../../module/config.js'
+  import notifyTool from '../../../module/notifyTool.js'
+  import msgTool from '../../../module/msgTool.js'
+  import commonTool from '../../../module/commonTool.js'
+
   export default {
     data() {
       return {
-        title:"",
+        ARTICLE_TYPE_URL: Config.BASE_URL + 'admin/articletype',
+
+
+
+        title: "",
         description: "",
 
         keywords: "",
-        pTypes:["语文","数学"],
+        articletypes: [],
         pid: "0",
         parentType: "",
         //标签选择
         dynamicTags: [],
         inputVisible: false,
         inputValue: "",
-        disabled:'disabled',
+        disabled: 'disabled',
 
         publicDate: Date.now(),
         dateOptions: {
@@ -186,19 +206,33 @@
         rawText: "#### how to use mavonEditor in nuxt.js",
         renderText: ""
       };
-    },components: {
+    }, components: {
       'v-headNavBar': HeadNavBar,
       'v-articleTagBar': ArticelTagBar
-    },methods: {
-      publish:function(type) {
+    }, methods: {
+      publish: function (type) {
         console.log(this.renderText);
+        if (!this.title || this.title.trim().length == 0) {
+          msgTool.warnTips(this,"请填写标题");
+          return;
+        }
+        if(!this.description || this.description.trim().length == 0) {
+          msgTool.warnTips(this,"请填写文章摘要");
+          return;
+        }
+
+        if(!this.parentType || this.parentType.trim().length == 0) {
+          msgTool.warnTips(this,"请选择文章分类");
+          return;
+        }
+
 
       },
-      saveMavon(value,render){
+      saveMavon(value, render) {
         this.renderText = render;
       },
       // 绑定@imgAdd event
-      $imgAdd(pos, $file){
+      $imgAdd(pos, $file) {
         console.log("触发图片上传");
         console.log(pos);
         console.log($file);
@@ -221,7 +255,7 @@
         //   console.log(this.$refs.md.d_render);
         //
         // });
-      }, getValue:function(value) {
+      }, getValue: function (value) {
         this.pid = value;
       },
 
@@ -245,45 +279,63 @@
         this.inputVisible = false;
         this.inputValue = '';
 
-        if(this.dynamicTags.length == 5) {
+        if (this.dynamicTags.length == 5) {
 
         }
-
       }
 
+    },mounted() {
+      this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
+        if (response.body.success) {
+          this.articletypes = response.body.articletypes;
+        }
+      },response => {
+
+      });
     }
-    }
+  }
 </script>
 
 <style scoped lang="scss">
   .top {
     display: flex;
     flex-direction: column;
+
     .top-input-con {
       width: 75%;
       margin-top: 5px;
-        .top-row {
-          display: flex;
-          padding: 10px 0;
-          align-items: center;
 
-          .row-label {
-            width: 60px;
-            span {
-              color: red;
-            }
-          }
+      .top-row {
+        display: flex;
+        padding: 10px 0;
+        align-items: center;
 
-          .input_title {
-            flex: 1;
-            margin-left: 10px;
+        .row-label {
+          width: 60px;
+
+          span {
+            color: red;
           }
         }
+
+        .input_title {
+          flex: 1;
+        }
+      }
     }
   }
+
   .last-row {
     width: 100%;
     display: flex;
+
+    .row-label {
+      width: 60px;
+
+      span {
+        color: red;
+      }
+    }
   }
 
 
@@ -302,6 +354,7 @@
   .el-tag + .el-tag {
     margin-left: 10px;
   }
+
   .button-new-tag {
     margin-left: 10px;
     height: 32px;
@@ -309,13 +362,15 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
   }
+
   .tag-con {
-    display:flex;
+    display: flex;
     margin: 20px 0;
   }
 </style>
