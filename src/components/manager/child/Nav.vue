@@ -30,8 +30,8 @@
         width="80"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red"></i>
+          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF;cursor: pointer"></i>
+          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red;cursor: pointer"></i>
         </template>
       </el-table-column>
 
@@ -82,6 +82,7 @@
         this.$http.get(this.NAV_URL).then(response => {
           if (response.body.success) {
             this.tableData = response.body.nav;
+            console.log(this.tableData);
           }
         },response => {
 
@@ -120,7 +121,7 @@
       },changeState: function (row) {
         this.$http.post(this.CHANGE_STATE_URL,{
           id: row._id,
-          collectionName:'link',
+          collectionName:'nav',
           attr: 'state'
         }).then(response => {
           if (response.body.success) {

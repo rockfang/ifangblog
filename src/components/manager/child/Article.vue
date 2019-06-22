@@ -1,67 +1,210 @@
 <template>
   <div>
-    <mavon-editor :toolbars="markdownOption" v-model="handbook" codeStyle='androidstudio' :style="mheight"/>
+    <el-table
+      :data="tableData"
+      border
+      style="width: 100%"
+      :row-class-name="tableRowClassName"
+      row-key="_id"
+    >
+
+      <el-table-column
+        label="序号"
+        width="80"
+        align="left">
+        <template slot-scope="scope">
+          <span style="text-align: left">{{ scope.row.createId }}</span>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column
+        label="标题"
+        width="220"
+        show-overflow-tooltip="true"
+        align="left">
+        <template slot-scope="scope">
+          <span style="text-align: left">{{ scope.row.title }}</span>
+        </template>
+      </el-table-column>
+
+
+
+      <el-table-column
+        label="标签"
+        width="250"
+        show-overflow-tooltip="true"
+
+        align="center">
+        <template slot-scope="scope" >
+          <template  v-for="tag in scope.row.tags">
+            <el-tag type="success" style="margin-left:5px">{{tag}}</el-tag>
+          </template>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column
+        label="归类"
+        width="120"
+        show-overflow-tooltip="true"
+        align="center">
+        <template slot-scope="scope">
+          <span style="text-align: left">{{ scope.row.atname }}</span>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column
+        label="状态"
+        width="100"
+        show-overflow-tooltip="true"
+
+        align="center">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-if="scope.row.state == 1" @click="changeState(scope.row,'state')" >已发布</el-button>
+          <el-button type="info" plain size="mini" v-else @click="changeState(scope.row,'state')" >待发布</el-button>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="公开"
+        width="80"
+        align="center">
+        <template slot-scope="scope" >
+            <i @click="changeState(scope.row,'lock')" v-if="scope.row.lock == 0" class="el-icon-success" style="color: #5CB6FF;cursor: pointer"></i>
+            <i @click="changeState(scope.row,'lock')" v-else class="el-icon-lock" style="color: #C76E00;cursor: pointer"></i>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作"
+                       align="left">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+
+    <template>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :hide-on-single-page="hideSinglePage"
+        @current-change="currentChange"
+        :page-size="pageSize"
+        :page-count="pageCount">
+      </el-pagination>
+    </template>
   </div>
 </template>
 
 <script>
-  import HeadNavBar from '../../default/public/HeadNavBar.vue'
-  import ArticelTagBar from '../../default/public/ArticelTagBar.vue'
-
+  import Config from '../../../module/config.js'
+  import notifyTool from '../../../module/notifyTool.js'
+  import msgTool from '../../../module/msgTool.js'
   export default {
     data() {
       return {
-        //设置编辑框高度 60顶部栏+ 40header + 40footer 20预留底部距离 + 40本身Editor的padding预留
-        mheight: {
-          'min-height': window.innerHeight - 200 + 'px'
-        },
-        markdownOption: {
-          bold: true, // 粗体
-          italic: true, // 斜体
-          header: true, // 标题
-          underline: true, // 下划线
-          strikethrough: true, // 中划线
-          mark: true, // 标记
-          superscript: true, // 上角标
-          subscript: true, // 下角标
-          quote: true, // 引用
-          ol: true, // 有序列表
-          ul: true, // 无序列表
-          link: true, // 链接
-          imagelink: true, // 图片链接
-          code: true, // code
-          table: true, // 表格
-          fullscreen: true, // 全屏编辑
-          readmodel: true, // 沉浸式阅读
-          htmlcode: true, // 展示html源码
-          help: true, // 帮助
-          /* 1.3.5 */
-          undo: true, // 上一步
-          redo: true, // 下一步
-          trash: true, // 清空
-          save: true, // 保存（触发events中的save事件）
-          /* 1.4.2 */
-          navigation: true, // 导航目录
-          /* 2.1.8 */
-          alignleft: true, // 左对齐
-          aligncenter: true, // 居中
-          alignright: true, // 右对齐
-          /* 2.2.1 */
-          subfield: true, // 单双栏模式
-          preview: true, // 预览
-        },
-        handbook: "#### how to use mavonEditor in nuxt.js"
-      };
-    },components: {
-      'v-headNavBar': HeadNavBar,
-      'v-articleTagBar': ArticelTagBar
+        ARTICLE_URL: Config.BASE_URL + 'admin/article',
+        CHANGE_STATE_URL: Config.BASE_URL + 'admin/changeState',
+        DELETE_URL: Config.BASE_URL + 'admin/article/delete',
+        tableData: [], //
+
+        pageSize:10,//每页显示多少条前端固定
+        pageCount:0,
+        hideSinglePage: true,
+
+      }
+    },
+    methods: {
+      currentChange: function (page) {
+        this.getPageArticles(page);
+      },
+      getPageArticles:function (page) {
+        //请求服务器，获取pageCount,pageSize
+        this.$http.get(this.ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
+          .then(response => {
+            if (response.body.success) {
+              this.tableData = response.body.articles;
+              this.pageCount = response.body.pageCount;
+              console.log("pageCount:" + response.body.pageCount);
+            }
+          },response => {
+
+          });
+      },
+      handleEdit(index, row) {
+        this.$router.push({path:'/manager/article/edit',query: { id: row._id}});
+      },
+      handleDelete(index, row) {
+
+        this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+            if (response.body.success) {
+              msgTool.successTips(this,'删除成功!');
+              this.getPageArticles(1);
+            } else {
+              msgTool.errorTips(this,response.body.msg);
+            }
+          },response => {
+            msgTool.errorTips(this,'删除失败');
+          });
+
+        }).catch(() => {
+          msgTool.normalTips(this,'已取消删除');
+        });
+
+      }, tableRowClassName({row, rowIndex}) {
+        if(this.tableData[rowIndex]) {
+          if(this.tableData[rowIndex].state == '0') {
+            return 'warning-row';
+          } else {
+            //return 'success-row';
+          }
+        }
+        return '';
+      },changeState: function (row,field) {
+        this.$http.post(this.CHANGE_STATE_URL,{
+          id: row._id,
+          collectionName:'article',
+          attr: field
+        }).then(response => {
+          if (response.body.success) {
+            notifyTool.successTips(this,'成功',response.body.msg);
+            if (row[field] == '1') {
+              row[field] = '0';
+            } else {
+              row[field] = '1';
+            }
+          }
+        },response => {
+        });
+      }
+      },mounted() {
+      this.getPageArticles(1);
     }
-    }
+  }
 </script>
 
-<style scoped lang="scss">
-
-  .markdown-body {
-    /*min-height: 600px;*/
+<style >
+  .el-table .warning-row {
+    background: oldlace;
   }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
 </style>

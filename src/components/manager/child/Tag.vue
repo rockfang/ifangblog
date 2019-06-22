@@ -22,8 +22,8 @@
         width="80"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red"></i>
+          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF;cursor:pointer;"></i>
+          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red;cursor:pointer;"></i>
         </template>
       </el-table-column>
 
@@ -59,7 +59,7 @@
       <el-pagination
         small
         layout="prev, pager, next"
-        :hide-on-single-page="value"
+        :hide-on-single-page="hideSinglePage"
         @current-change="currentChange"
         :page-size="pageSize"
         :page-count="pageCount">
@@ -83,7 +83,7 @@
 
         pageSize:5,//每页显示多少条前端固定
         pageCount:0,
-        value: true,
+        hideSinglePage: true,
        }
     },
     methods: {
@@ -150,7 +150,7 @@
       },changeState: function (row) {
         this.$http.post(this.CHANGE_STATE_URL,{
           id: row._id,
-          collectionName:'articletype',
+          collectionName:'tag',
           attr: 'state'
         }).then(response => {
           if (response.body.success) {
@@ -159,22 +159,6 @@
               row.state = '0';
             } else {
               row.state = '1';
-            }
-          }
-        },response => {
-        });
-      },changeLock: function (row) {
-        this.$http.post(this.CHANGE_STATE_URL,{
-          id: row._id,
-          collectionName:'articletype',
-          attr: 'lock'
-        }).then(response => {
-          if (response.body.success) {
-            notifyTool.successTips(this,'成功',response.body.msg);
-            if (row.lock == '1') {
-              row.lock = '0';
-            } else {
-              row.lock = '1';
             }
           }
         },response => {

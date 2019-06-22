@@ -30,8 +30,8 @@
         width="180"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red"></i>
+          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF;cursor: pointer"></i>
+          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red;cursor: pointer"></i>
         </template>
       </el-table-column>
 

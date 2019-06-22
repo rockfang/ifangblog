@@ -44,74 +44,64 @@
       <!--</div>-->
 
       <div class="top-input-con">
-        <div class="top-row">
-          <div class="row-label"><span style="color: red">*</span>类目:</div>
-          <el-select v-model="parentType" placeholder="请选择"
-                     @change="getValue"
-                     size="medium">
-            <template v-for="(item,index) in articletypes">
-              <el-option
-                :label="item.title"
-                :value="item._id">
-              </el-option>
-
-              <template v-for="(child,cindex) in item.list">
+          <div class="top-row">
+            <div class="row-label"><span style="color: red">*</span>类目:</div>
+            <el-select v-model="parentType" placeholder="请选择"
+                       @change="getValue"
+                       size="medium">
+              <template v-for="(item,index) in articletypes">
                 <el-option
-                  :label=" '　' + child.title"
-                  :value="child._id">
+                  :label="item.title"
+                  :value="item._id">
                 </el-option>
+
+                <template v-for="(child,cindex) in item.list">
+                  <el-option
+                    :label=" '　' + child.title"
+                    :value="child._id">
+                  </el-option>
+                </template>
               </template>
-            </template>
-          </el-select>
+            </el-select>
 
+          </div>
 
-          <div style="margin-left: 30px;width: 100px"><span style="color: red">*</span>发布日期:</div>
-          <el-date-picker
-            v-model="createTime"
-            type="date"
-            :picker-options="dateOptions"
-            size="medium"
-            placeholder="选择日期">
-          </el-date-picker>
         </div>
 
-      </div>
 
       <!--标签选择-->
       <div class="tag-con">
-          <div style="display: flex; align-items: center;">
-            <div style="width: 60px"><span style="color: red">*</span>标签:</div>
-            <el-tag
-              v-for="tag in dynamicTags"
-              :key="tag"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(tag)">
-              {{tag}}
-            </el-tag>
-            <el-input
-              class="input-new-tag"
-              v-if="inputVisible"
-              v-model="inputValue"
-              ref="saveTagInput"
-              size="small"
-              maxlength="15"
-              @keyup.enter.native="handleInputConfirm"
-              @blur="handleInputConfirm"
-            >
-            </el-input>
-            <el-button v-if="dynamicTags.length < 5" class="button-new-tag" size="small" @click="showInput">+ 添加Tag
-            </el-button>
-            <el-button v-else class="button-new-tag" disabled size="small" @click="showInput">Tag最多5个</el-button>
-          </div>
-
-          <div class="operation">
-            <el-button type="primary" size="mini" @click="publish('1')">发布</el-button>
-            <el-button type="warning" size="mini" class="draft" @click="publish('0')">草稿</el-button>
-          </div>
+        <div style="display: flex; align-items: center;">
+          <div style="width: 60px"><span style="color: red">*</span>标签:</div>
+          <el-tag
+            v-for="tag in dynamicTags"
+            :key="tag"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            maxlength="15"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+          <el-button v-if="dynamicTags && dynamicTags.length < 5" class="button-new-tag" size="small" @click="showInput">+ 添加Tag
+          </el-button>
+          <el-button v-else class="button-new-tag" disabled size="small" @click="showInput">Tag最多5个</el-button>
         </div>
 
-
+        <div class="operation">
+          <el-button type="primary" size="mini" @click="doEdit('1')">发布</el-button>
+          <el-button type="warning" size="mini" class="draft" @click="doEdit('0')">草稿</el-button>
+        </div>
+      </div>
     </div>
     <mavon-editor :toolbars="markdownOption"
                   v-model="rawText"
@@ -139,10 +129,12 @@
     data() {
       return {
         ARTICLE_TYPE_URL: Config.BASE_URL + 'admin/articletype',
-        ADD_URL: Config.BASE_URL + 'admin/article/doAdd',
+        EDIT_URL: Config.BASE_URL + 'admin/article/doEdit',
+        ARTICLE_URL: Config.BASE_URL + 'admin/article/getarticle',
 
 
-        title: "",
+
+        title: "123",
         description: "",
 
         keywords: [],
@@ -155,7 +147,6 @@
         inputValue: "",
         disabled: 'disabled',
 
-        createTime: new Date(),
         dateOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
@@ -209,23 +200,24 @@
       'v-headNavBar': HeadNavBar,
       'v-articleTagBar': ArticelTagBar
     }, methods: {
-      publish: function (type) {
-        console.log(this.createTime);
+      doEdit:function (type) {
+
         if (!this.title || this.title.trim().length == 0) {
-          msgTool.warnTips(this, "请填写标题");
+          msgTool.warnTips(this,"请填写标题");
           return;
         }
-        if (!this.description || this.description.trim().length == 0) {
-          msgTool.warnTips(this, "请填写文章摘要");
-          return;
-        }
-
-        if (!this.parentType || this.parentType.trim().length == 0) {
-          msgTool.warnTips(this, "请选择文章分类");
+        if(!this.description || this.description.trim().length == 0) {
+          msgTool.warnTips(this,"请填写文章摘要");
           return;
         }
 
-        this.$http.post(this.ADD_URL, {
+        if(!this.parentType || this.parentType.trim().length == 0) {
+          msgTool.warnTips(this,"请选择文章分类");
+          return;
+        }
+
+        this.$http.post(this.EDIT_URL,{
+          id: this.$route.query.id,
           pid: this.pid,
           title: this.title,
           state: type,
@@ -233,21 +225,21 @@
           keywords: this.keywords,
           rawText: this.rawText,
           renderText: this.renderText,
-          createTime: this.createTime,
           tags: this.dynamicTags
         }).then(response => {
           if (response.body.success) {
-            notifyTool.successTips(this, '成功', response.body.msg);
-            this.$router.push({path: '/manager/article'});
+            notifyTool.successTips(this,'成功',response.body.msg);
+            this.$router.push({path:'/manager/article'});
           } else {
-            notifyTool.errorTips(this, '失败', response.body.msg);
+            notifyTool.errorTips(this,'失败',response.body.msg);
           }
-        }, response => {
-          notifyTool.errorTips(this, '添加失败', '信息提交失败');
+        },response => {
+          notifyTool.errorTips(this,'修改失败','信息修改失败');
         });
 
-
       },
+
+
       saveMavon(value, render) {
         this.renderText = render;
       },
@@ -298,16 +290,41 @@
         }
         this.inputVisible = false;
         this.inputValue = '';
-      }
+      },getArticleTypes:function () {
+        this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
+          if (response.body.success) {
+            this.articletypes = response.body.articletypes;
+          }
+        },response => {
 
-    }, mounted() {
-      this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
-        if (response.body.success) {
-          this.articletypes = response.body.articletypes;
-        }
-      }, response => {
+        });
+      },
+      getArticle:function() {
+        let that = this;
+        this.$http.get(this.ARTICLE_URL + '?id=' + this.$route.query.id).then(response => {
+          if (response.body.success) {
+            console.log('------');
+            console.log(response.body.article.title);
+            console.log(response.body.article);
+            that.title = response.body.article.title;
+            this.description = response.body.article.description;
+            this.dynamicTags = response.body.article.tags;
+            this.rawText = response.body.article.rawText;
 
-      });
+            this.pid = response.body.article.pid;
+            this.parentType = response.body.article.atname;
+          } else {
+            notifyTool.errorTips(this,'错误',response.body.msg);
+          }
+        },response => {
+          notifyTool.errorTips(this,'错误','未获取到数据');
+
+        });
+      },
+
+    },mounted() {
+      this.getArticle();
+      this.getArticleTypes();
     }
   }
 </script>
@@ -341,12 +358,10 @@
     }
   }
 
-
   .operation {
     flex: 1;
     text-align: right;
   }
-
   .markdown-body {
     /*min-height: 600px;*/
   }

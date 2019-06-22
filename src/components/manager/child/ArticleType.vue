@@ -23,8 +23,8 @@
         width="80"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red"></i>
+          <i @click="changeState(scope.row)" v-if="scope.row.state == 1" class="el-icon-success" style="color: #5CB6FF;cursor:pointer;"></i>
+          <i @click="changeState(scope.row)" v-else class="el-icon-error" style="color: red;cursor:pointer;"></i>
         </template>
       </el-table-column>
 
@@ -33,8 +33,8 @@
         width="80"
         align="center">
         <template slot-scope="scope">
-          <i @click="changeLock(scope.row)" v-if="scope.row.lock == 0" class="el-icon-success" style="color: #5CB6FF"></i>
-          <i @click="changeLock(scope.row)" v-else class="el-icon-lock" style="color: #C76E00"></i>
+          <i @click="changeLock(scope.row)" v-if="scope.row.lock == 0" class="el-icon-success" style="color: #5CB6FF;cursor:pointer;"></i>
+          <i @click="changeLock(scope.row)" v-else class="el-icon-lock" style="color: #C76E00;cursor:pointer;"></i>
         </template>
       </el-table-column>
 

@@ -26,6 +26,7 @@ import LinkAdd from '../components/manager/child/LinkAdd.vue'
 import Nav from '../components/manager/child/Nav.vue'
 import NavAdd from '../components/manager/child/NavAdd.vue'
 import Setting from '../components/manager/child/Setting.vue'
+import ArticleEdit from "../components/manager/child/ArticleEdit";
 
 const routes = [
   { path: '/login', component: Login },
@@ -48,6 +49,7 @@ const routes = [
 
       { path: 'article', component: Article },
       { path: 'article/add', component: ArticleAdd },
+      { path: 'article/edit', component: ArticleEdit },
 
       { path: 'link', component: Link },
       { path: 'link/add', component: LinkAdd },
