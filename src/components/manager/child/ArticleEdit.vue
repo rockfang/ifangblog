@@ -107,6 +107,7 @@
                   v-model="rawText"
                   codeStyle='androidstudio'
                   :style="mheight"
+                  :ishljs = "true"
                   @imgAdd="$imgAdd"
                   @save="saveMavon"
                   @change="saveMavon"

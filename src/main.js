@@ -83,7 +83,7 @@ import notifyTool from './module/notifyTool.js'
  * vue-resource拦截器
  */
 Vue.http.interceptors.push((request, next) => {
-  console.log('come in interceptors');
+  console.log('come in interceptors-------------------------');
   next((response) => {
     if(response.body.code == 1002) {
       notifyTool.errorTips2(vm,'请登录','未登录或登录失效,请登录');

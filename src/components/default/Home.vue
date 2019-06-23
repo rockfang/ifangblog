@@ -1,99 +1,25 @@
 <template>
-  <div>
+  <div v-cloak>
     <v-headNavBar></v-headNavBar>
 
     <div class="content">
       <div class="main">
-        <div class="article-item">
+
+        <div class="article-item" v-for="item in articles">
           <div class="article-time-head">
             <img src="../../assets/images/calenter.png" alt="">
-            <span>2019-06-01</span>
+            <span>{{item.createTime}}</span>
           </div>
-          <div class="article-title">文章标题：nodejs操作mongodb数据库</div>
-          <div class="article-message">
-            npm install mongodb --save-dev
-            <br>
-            var MongoClient = require('mongodb').MongoClient;
-            <br>
-            创建数据库地址
-            <br>
-            var url = 'mongodb://localhost:27017/test'; 这是2.版本的mongodb方式
-            <br>
-            var url = 'mongodb://localhost:27017/ 3.几版本连接数据库
+          <div class="article-title">{{item.title}}</div>
+          <div class="article-message" v-html="item.description">
           </div>
-          <div class="article-readmore"><a href="">查看更多...</a></div>
-
+          <div class="article-readmore" @click="goArticle(item._id)"><a href="">查看更多...</a></div>
           <v-articleTagBar></v-articleTagBar>
-
-        </div>
-        <div class="article-item">
-          <div class="article-time-head">
-            <img src="../../assets/images/calenter.png" alt="">
-            <span>2019-06-01</span>
-          </div>
-          <div class="article-title">文章标题：nodejs操作mongodb数据库</div>
-          <div class="article-message">
-            npm install mongodb --save-dev
-            <br>
-            var MongoClient = require('mongodb').MongoClient;
-            <br>
-            创建数据库地址
-            <br>
-            var url = 'mongodb://localhost:27017/test'; 这是2.版本的mongodb方式
-            <br>
-            var url = 'mongodb://localhost:27017/ 3.几版本连接数据库
-          </div>
-          <div class="article-readmore"><a href="">查看更多...</a></div>
-
-          <v-articleTagBar></v-articleTagBar>
-
-        </div>
-        <div class="article-item">
-          <div class="article-time-head">
-            <img src="../../assets/images/calenter.png" alt="">
-            <span>2019-06-01</span>
-          </div>
-          <div class="article-title">文章标题：nodejs操作mongodb数据库</div>
-          <div class="article-message">
-            npm install mongodb --save-dev
-            <br>
-            var MongoClient = require('mongodb').MongoClient;
-            <br>
-            创建数据库地址
-            <br>
-            var url = 'mongodb://localhost:27017/test'; 这是2.版本的mongodb方式
-            <br>
-            var url = 'mongodb://localhost:27017/ 3.几版本连接数据库
-          </div>
-          <div class="article-readmore"><a href="">查看更多...</a></div>
-
-          <v-articleTagBar></v-articleTagBar>
-
-        </div>
-        <div class="article-item">
-          <div class="article-time-head">
-            <img src="../../assets/images/calenter.png" alt="">
-            <span>2019-06-01</span>
-          </div>
-          <div class="article-title">文章标题：nodejs操作mongodb数据库</div>
-          <div class="article-message">
-            npm install mongodb --save-dev
-            <br>
-            var MongoClient = require('mongodb').MongoClient;
-            <br>
-            创建数据库地址
-            <br>
-            var url = 'mongodb://localhost:27017/test'; 这是2.版本的mongodb方式
-            <br>
-            var url = 'mongodb://localhost:27017/ 3.几版本连接数据库
-          </div>
-          <div class="article-readmore"><a href="">查看更多...</a></div>
-
-          <v-articleTagBar></v-articleTagBar>
-
         </div>
       </div>
     </div>
+    <v-bottomBar v-if="ready"></v-bottomBar>
+
   </div>
 
 </template>
@@ -101,24 +27,47 @@
 <script>
 import HeadNavBar from './public/HeadNavBar.vue'
 import ArticelTagBar from './public/ArticelTagBar.vue'
+import BottomBar from './public/BottomBar.vue'
 import '../../assets/css/basic.scss';
+import Config from '../../module/config.js'
 
 
 export default {
       data() {
         return {
-          name: 'home'
+          ARTICLE_INDEX_URL: Config.BASE_URL + 'index',
+          articles: [],
+          ready: false
         }
       },components: {
         'v-headNavBar': HeadNavBar,
-        'v-articleTagBar': ArticelTagBar
+        'v-articleTagBar': ArticelTagBar,
+        'v-bottomBar': BottomBar,
+      },methods: {
+        requestArticleIndex: function () {
+          this.$http.get(this.ARTICLE_INDEX_URL).then(response => {
+            if (response.body.success) {
+              this.articles = response.body.articles;
+              console.log(this.articles);
+              this.ready = true;//处理底部栏闪屏出现
+            }
+          },response => {
 
-
-  }
+          });
+        },goArticle: function (id) {
+          this.$router.push({path:'/article',query: { id: id}});
     }
+      },mounted() {
+        this.requestArticleIndex();
+  }
+}
 </script>
 
 <style lang="scss">
+[v-cloak] {
+  display:none;
+
+}
 .content {
   margin: 65px 20px 20px 20px;
 
@@ -130,10 +79,10 @@ export default {
     width:78%;
     .article-item {
       display: block;
-      min-height: 330px;
+      /*min-height: 330px;*/
       background: white;
       margin: 30px 0;
-      padding: 30px 45px;
+      padding: 30px 45px 0 45px;
       border-radius: 10px;
 
       .article-time-head {
@@ -174,7 +123,6 @@ export default {
 
     }
   }
-
-
 }
+
 </style>

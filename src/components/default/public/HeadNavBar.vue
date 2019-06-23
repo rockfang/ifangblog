@@ -13,7 +13,8 @@
     <div class="site-header-right">
       <nav class="site-header-navigation">
 
-        <span><a href="">主页</a></span>
+        <router-link to="/">主页</router-link>
+        <!--<span><a href="">主页</a></span>-->
         <span><a href="">&nbsp&nbsp&nbsp标签页</a></span>
         <span><a href="">&nbsp&nbsp&nbsp小工具</a></span>
         <span><a href="">&nbsp&nbsp&nbsp友情链接</a></span>
