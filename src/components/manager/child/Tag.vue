@@ -30,7 +30,7 @@
 
       <el-table-column
         label="排序"
-        width="60"
+        width="70"
         align="center">
         <template slot-scope="scope">
           <el-input size="mini"
@@ -117,7 +117,7 @@
       },
       handleDelete(index, row) {
 
-        this.$confirm('此操作将永久删除该分类及其子分类, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -126,7 +126,7 @@
           this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
             if (response.body.success) {
               msgTool.successTips(this,'删除成功!');
-              this.initData();
+              this.getPageTags(1);
             } else {
               msgTool.errorTips(this,response.body.msg);
             }
@@ -170,13 +170,21 @@
   }
 </script>
 
-<style >
+<style scoped>
   .el-table .warning-row {
     background: oldlace;
   }
 
   .el-table .success-row {
     background: #f0f9eb;
+  }
+
+  el-input__inner {
+    text-align: center;
+  }
+
+  .el-pagination {
+    margin-top: 10px;
   }
 
 </style>

@@ -1,17 +1,10 @@
 <template>
     <div class="article-tag">
-      <div class="tag-item">
-        <a href="">
-          <img src="../../../assets/images/tag.png" alt="">
-          <span>Node</span>
-        </a>
-      </div>
-
-
-      <div class="tag-item">
-        <a href="">
-          <img src="../../../assets/images/tag.png" alt="">
-          <span>Android</span>
+      <div class="tag-item" v-for="tag in this.tags">
+        <a href="" class="a-tag">
+          <img :src="'http://' + tag.icon" alt="" v-if="tag.icon">
+          <img src="../../../assets/images/tag.png" alt="" v-else>
+          <span>{{tag.name}}</span>
         </a>
       </div>
     </div>
@@ -19,7 +12,8 @@
 
 <script>
     export default {
-        name: "ArticelTagBar"
+        name: "ArticelTagBar",
+        props:["tags"]
     }
 </script>
 
@@ -42,9 +36,15 @@
       margin: 5px 10px;
       padding: 5px;
       border: 1px solid #eee;
-      img {
-        width: 20px;
-        height: 18px;
+      border-radius: 5px;
+      .a-tag {
+        display: flex;
+        align-items: center;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 2px;
+        }
       }
     }
 

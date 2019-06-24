@@ -14,7 +14,7 @@
           <div class="article-message" v-html="item.description">
           </div>
           <div class="article-readmore" @click="goArticle(item._id)"><a href="">查看更多...</a></div>
-          <v-articleTagBar></v-articleTagBar>
+          <v-articleTagBar :tags="item.tags"></v-articleTagBar>
         </div>
       </div>
     </div>

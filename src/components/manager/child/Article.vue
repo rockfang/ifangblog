@@ -38,7 +38,7 @@
         align="center">
         <template slot-scope="scope" >
           <template  v-for="tag in scope.row.tags">
-            <el-tag type="success" style="margin-left:5px">{{tag}}</el-tag>
+            <el-tag type="success" style="margin-left:5px">{{tag.name}}</el-tag>
           </template>
         </template>
       </el-table-column>
