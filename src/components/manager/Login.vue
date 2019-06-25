@@ -82,7 +82,7 @@
                 localStorage.setItem('username',response.body.username);
                 this.$router.push({ path: '/manager'})
               } else {
-                notifyTool.errorTips(this,'登录失败','很遗憾,登录失败');
+                notifyTool.errorTips(this,'登录失败',response.body.msg);
               }
 
             }, response => {

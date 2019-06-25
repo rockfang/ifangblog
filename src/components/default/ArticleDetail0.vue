@@ -1,54 +1,42 @@
 <template>
   <div>
     <template>
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :hide-on-single-page="value"
-        @current-change="currentChange"
-        :page-size="pageSize"
-        :page-count="pageCount">
-      </el-pagination>
+      <mavon-editor ref=md @imgAdd="$imgAdd" @imgDel="$imgDel"></mavon-editor>
     </template>
   </div>
 </template>
 
+
+
 <script>
-
-  import Config from '../../module/config.js'
-  import notifyTool from '../../module/notifyTool.js'
-  import msgTool from '../../module/msgTool.js'
-
-
   export default {
-    data() {
+    data(){
       return {
-        TAG_TYPE_URL: Config.BASE_URL + 'admin/tag',
-        pageSize:1,//每页显示多少条前端固定
-        pageCount:'',
-        value: true,
+        img_file: {}
       }
-    },methods: {
-      currentChange: function (page) {
-        //请求指定页的数据
-        console.log("----------");
-        this.getPageTags(page);
-      },getPageTags:function (page) {
-        //请求服务器，获取pageCount,pageSize
-        this.$http.get(this.TAG_TYPE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
-          .then(response => {
-          if (response.body.success) {
-            console.log("current Tags:");
-            console.log(response.body.tags);
-            this.pageCount = response.body.pageCount;
-            console.log("pageCount:" + response.body.pageCount);
-          }
-        },response => {
-
-        });
+    },
+    methods: {
+// 绑定@imgAdd event
+      $imgAdd(pos, $file){
+// 第一步.将图片上传到服务器.
+        var formdata = new FormData();
+        formdata.append('image', $file);
+        console.log(formdata);
+//         axios({
+//           url: 'server url',
+//           method: 'post',
+//           data: formdata,
+//           headers: { 'Content-Type': 'multipart/form-data' },
+//         }).then((url) => {
+// // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+// // $vm.$img2Url 详情见本页末尾
+//           $vm.$img2Url(pos, url);
+//         })
+      },$imgDel(pos){
+        console.log(pos);
+        delete this.img_file[pos];
       },
-    },mounted() {
-      this.getPageTags(1);
     }
   }
 </script>
+

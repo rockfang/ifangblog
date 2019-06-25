@@ -82,7 +82,10 @@
     }
 
     pre {
+      .hljs {
       border-radius: 5px !important;
+        padding-left: 20px;
+      }
     }
   }
 </style>
