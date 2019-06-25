@@ -28,6 +28,8 @@ import NavAdd from '../components/manager/child/NavAdd.vue'
 import Setting from '../components/manager/child/Setting.vue'
 import ArticleEdit from "../components/manager/child/ArticleEdit";
 
+import page404 from "../components/default/404.vue";
+
 const routes = [
   { path: '/login', component: Login },
   {
@@ -57,13 +59,16 @@ const routes = [
       { path: 'nav', component: Nav },
       { path: 'nav/add', component: NavAdd },
       { path: 'setting', component: Setting },
+
     ]
 
   },
 
+
   // { path: '/content/:aid', component: Content },   /*动态路由*/
 
-  // { path: '*', redirect: '/manager' }   /*默认跳转路由*/
+  { path: '/404', component: page404 },  /*默认跳转路由*/
+  { path: '*', redirect: '/404' }   /*默认跳转路由*/
 ];
 
 export default  routes;
