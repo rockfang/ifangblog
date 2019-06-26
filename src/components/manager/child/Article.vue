@@ -21,7 +21,6 @@
       <el-table-column
         label="标题"
         width="220"
-        show-overflow-tooltip="true"
         align="left">
         <template slot-scope="scope">
           <span style="text-align: left">{{ scope.row.title }}</span>
@@ -33,7 +32,6 @@
       <el-table-column
         label="标签"
         width="250"
-        show-overflow-tooltip="true"
 
         align="center">
         <template slot-scope="scope" >
@@ -47,7 +45,6 @@
       <el-table-column
         label="归类"
         width="120"
-        show-overflow-tooltip="true"
         align="center">
         <template slot-scope="scope">
           <span style="text-align: left">{{ scope.row.atname }}</span>
@@ -58,8 +55,6 @@
       <el-table-column
         label="状态"
         width="100"
-        show-overflow-tooltip="true"
-
         align="center">
         <template slot-scope="scope">
           <el-button type="success" size="mini" v-if="scope.row.state == 1" @click="changeState(scope.row,'state')" >已发布</el-button>

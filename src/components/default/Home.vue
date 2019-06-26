@@ -1,9 +1,9 @@
 <template>
   <div v-cloak>
-    <v-headNavBar></v-headNavBar>
+    <v-headNavBar ></v-headNavBar>
 
     <div class="content">
-      <div class="main">
+      <div class="main-home">
 
         <div class="article-item" v-for="item in articles">
           <div class="article-time-head">
@@ -37,7 +37,7 @@ export default {
         return {
           ARTICLE_INDEX_URL: Config.BASE_WEB_URL,
           articles: [],
-          ready: false
+          ready: false,
         }
       },components: {
         'v-headNavBar': HeadNavBar,
@@ -73,7 +73,7 @@ export default {
 
   text-align: center;
   background: #F7F7F7;
-  .main {
+  .main-home {
     display: inline-block;
     text-align: left;
     width:78%;

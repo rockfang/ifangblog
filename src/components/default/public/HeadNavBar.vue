@@ -12,8 +12,7 @@
     </div>
     <div class="site-header-right">
       <nav class="site-header-navigation">
-
-        <router-link to="/">主页</router-link>
+        <router-link to="/" class="active">主页</router-link>
         <router-link to="/tagwall">&nbsp&nbsp&nbsp标签墙</router-link>
         <router-link to="/">&nbsp&nbsp&nbsp小工具</router-link>
         <router-link to="/">&nbsp&nbsp&nbsp友情链接</router-link>
@@ -24,8 +23,14 @@
 </template>
 
 <script>
+
     export default {
-        name: "NavBar.vue"
+
+      watch: {
+        $route(to, from) {
+          console.log("path:" + v-instance.$route.path);
+        }
+      },
     }
 </script>
 
@@ -66,6 +71,9 @@
       display: flex;
       justify-content: space-between;
 
+      .active {
+        color:#4FC08D;
+      }
     }
   }
 </style>
