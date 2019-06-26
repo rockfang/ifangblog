@@ -14,11 +14,10 @@
       <nav class="site-header-navigation">
 
         <router-link to="/">主页</router-link>
-        <!--<span><a href="">主页</a></span>-->
-        <span><a href="">&nbsp&nbsp&nbsp标签页</a></span>
-        <span><a href="">&nbsp&nbsp&nbsp小工具</a></span>
-        <span><a href="">&nbsp&nbsp&nbsp友情链接</a></span>
-        <span><a href="">&nbsp&nbsp&nbsp关于本站</a></span>
+        <router-link to="/tagwall">&nbsp&nbsp&nbsp标签墙</router-link>
+        <router-link to="/">&nbsp&nbsp&nbsp小工具</router-link>
+        <router-link to="/">&nbsp&nbsp&nbsp友情链接</router-link>
+        <router-link to="/">&nbsp&nbsp&nbsp关于本站</router-link>
       </nav>
     </div>
   </div>

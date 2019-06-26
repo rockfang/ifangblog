@@ -33,6 +33,7 @@
 //           $vm.$img2Url(pos, url);
 //         })
       },$imgDel(pos){
+        console.log("$imgDel");
         console.log(pos);
         delete this.img_file[pos];
       },

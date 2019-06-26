@@ -1,6 +1,6 @@
 <template>
     <div class="article-tag">
-      <div class="tag-item" v-for="tag in this.tags">
+      <div class="tag-item" v-for="tag in this.tags" @click="goTagArticle(tag.name)">
         <a href="" class="a-tag">
           <img :src="'http://' + tag.icon" alt="" v-if="tag.icon">
           <img src="../../../assets/images/tag.png" alt="" v-else>
@@ -12,8 +12,17 @@
 
 <script>
     export default {
-        name: "ArticelTagBar",
-        props:["tags"]
+      data: function() {
+        return {
+        }
+      },
+      props:["tags"],
+      methods: {
+        goTagArticle: function (name) {
+          this.$router.push({path:'/tagarticle/' + name});
+        }
+      }
+
     }
 </script>
 

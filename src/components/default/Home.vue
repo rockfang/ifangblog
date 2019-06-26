@@ -35,7 +35,7 @@ import Config from '../../module/config.js'
 export default {
       data() {
         return {
-          ARTICLE_INDEX_URL: Config.BASE_URL + 'index',
+          ARTICLE_INDEX_URL: Config.BASE_WEB_URL,
           articles: [],
           ready: false
         }

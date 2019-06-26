@@ -33,6 +33,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 14px;
 
     .base-row {
       margin: 5px 0;

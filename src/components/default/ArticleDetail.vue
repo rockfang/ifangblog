@@ -21,7 +21,7 @@
     data:function() {
       return {
         article: '',
-        ARTICLE_INDEX_URL: Config.BASE_URL + 'index/articleDetail',
+        ARTICLE_INDEX_URL: Config.BASE_WEB_URL + 'articleDetail',
         ready: false
       }
     },
