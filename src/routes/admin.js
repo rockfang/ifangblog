@@ -1,73 +1,43 @@
 /**
- * 应该配置成子路由的方式
+ * 路由懒加载
  */
-import Login from '../components/manager/Login.vue'
-import Manager from '../components/manager/Manager.vue'
-import Board from '../components/manager/child/Board.vue'
-
-import ArticleType from '../components/manager/child/ArticleType.vue'
-import ArticleTypeAdd from '../components/manager/child/ArticleTypeAdd.vue'
-import ArticleTypeEdit from '../components/manager/child/ArticleTypeEdit.vue'
-
-import Tag from '../components/manager/child/Tag.vue'
-import TagAdd from '../components/manager/child/TagAdd.vue'
-import TagEdit from '../components/manager/child/TagEdit.vue'
-
-import Article from '../components/manager/child/Article.vue'
-import ArticleAdd from '../components/manager/child/ArticleAdd.vue'
-
-import Admin from '../components/manager/child/Admin.vue'
-import AdminAdd from '../components/manager/child/AdminAdd.vue'
-import AdminEdit from '../components/manager/child/AdminEdit.vue'
-
-import Link from '../components/manager/child/Link.vue'
-import LinkAdd from '../components/manager/child/LinkAdd.vue'
-
-import Nav from '../components/manager/child/Nav.vue'
-import NavAdd from '../components/manager/child/NavAdd.vue'
-import Setting from '../components/manager/child/Setting.vue'
-import ArticleEdit from "../components/manager/child/ArticleEdit";
-
-import page404 from "../components/default/404.vue";
 
 const routes = [
-  { path: '/login', component: Login },
+  { path: '/login', component: resolve => require(['../components/manager/Login.vue'], resolve)},
   {
     path: '/manager',
-    component: Manager,
+    component: resolve => require(['../components/manager/Manager.vue'], resolve),
     children:[
-      { path: '/', component: Board },
-      { path: 'admin', component: Admin },
-      { path: 'admin/add', component: AdminAdd },
-      { path: 'admin/edit', component: AdminEdit },
+      { path: '/', component: resolve => require(['../components/manager/child/Board.vue'], resolve) },
+      { path: 'admin', component: resolve => require(['../components/manager/child/Admin.vue'], resolve) },
+      { path: 'admin/add', component: resolve => require(['../components/manager/child/AdminAdd.vue'], resolve) },
+      { path: 'admin/edit', component: resolve => require(['../components/manager/child/AdminEdit.vue'], resolve) },
 
-      { path: 'articletype', component: ArticleType },
-      { path: 'articletype/add', component: ArticleTypeAdd },
-      { path: 'articletype/edit', component: ArticleTypeEdit },
+      { path: 'articletype', component: resolve => require(['../components/manager/child/ArticleType.vue'], resolve) },
+      { path: 'articletype/add', component: resolve => require(['../components/manager/child/ArticleTypeAdd.vue'], resolve) },
+      { path: 'articletype/edit', component: resolve => require(['../components/manager/child/ArticleTypeEdit.vue'], resolve) },
 
-      { path: 'tag', component: Tag },
-      { path: 'tag/add', component: TagAdd },
-      { path: 'tag/edit', component: TagEdit },
+      { path: 'tag', component: resolve => require(['../components/manager/child/Tag.vue'], resolve) },
+      { path: 'tag/add', component: resolve => require(['../components/manager/child/TagAdd.vue'], resolve) },
+      { path: 'tag/edit', component: resolve => require(['../components/manager/child/TagEdit.vue'], resolve) },
 
-      { path: 'article', component: Article },
-      { path: 'article/add', component: ArticleAdd },
-      { path: 'article/edit', component: ArticleEdit },
+      { path: 'article', component: resolve => require(['../components/manager/child/Article.vue'], resolve) },
+      { path: 'article/add', component: resolve => require(['../components/manager/child/ArticleAdd.vue'], resolve) },
+      { path: 'article/edit', component: resolve => require(['../components/manager/child/ArticleEdit.vue'], resolve) },
 
-      { path: 'link', component: Link },
-      { path: 'link/add', component: LinkAdd },
+      { path: 'link', component: resolve => require(['../components/manager/child/Link.vue'], resolve) },
+      { path: 'link/add', component: resolve => require(['../components/manager/child/LinkAdd.vue'], resolve)  },
 
-      { path: 'nav', component: Nav },
-      { path: 'nav/add', component: NavAdd },
-      { path: 'setting', component: Setting },
+      { path: 'nav', component: resolve => require(['../components/manager/child/Nav.vue'], resolve) },
+      { path: 'nav/add', component: resolve => require(['../components/manager/child/NavAdd.vue'], resolve) },
+      { path: 'setting', component: resolve => require(['../components/manager/child/Setting.vue'], resolve) },
 
     ]
 
   },
 
 
-  // { path: '/content/:aid', component: Content },   /*动态路由*/
-
-  { path: '/404', component: page404 },  /*默认跳转路由*/
+  { path: '/404', component: resolve => require(['../components/default/404.vue'], resolve) },  /*默认跳转路由*/
   { path: '*', redirect: '/404' }   /*默认跳转路由*/
 ];
 

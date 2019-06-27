@@ -7,11 +7,13 @@
 </template>
 
 <script>
-  import ManagerHeadBar from "./ManagerHeadBar.vue"
-  import ManagerContent from "./ManagerContent.vue"
     export default {
         components: {
-          ManagerHeadBar,ManagerContent
+          ManagerHeadBar:resolve => {
+            require(['./ManagerHeadBar.vue'], resolve)
+          },ManagerContent:resolve => {
+            require(['./ManagerContent.vue'], resolve)
+          },
       }
     }
 </script>

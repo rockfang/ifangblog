@@ -41,7 +41,7 @@
         tags: [],
         ready: false,
         mainHeight: {
-        'min-height': window.innerHeight - 375 + 'px'
+        'min-height': window.innerHeight - 350 + 'px'
       },
       }
     }, components: {

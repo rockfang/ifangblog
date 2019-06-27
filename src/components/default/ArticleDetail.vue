@@ -1,8 +1,8 @@
 <template>
     <div v-cloak>
       <v-headNavBar></v-headNavBar>
-      <div class="content ">
-        <div class="article" v-html="article">
+      <div class="content">
+        <div class="article" :style="articleHeight" v-html="article">
 
         </div>
       </div>
@@ -14,6 +14,7 @@
 
   import HeadNavBar from '../default/public/HeadNavBar.vue'
   import BottomBar from './public/BottomBar.vue'
+  import '../../assets/css/basic.scss';
   import Config from '../../module/config.js'
 
   export default {
@@ -22,7 +23,10 @@
       return {
         article: '',
         ARTICLE_INDEX_URL: Config.BASE_WEB_URL + 'articleDetail',
-        ready: false
+        ready: false,
+        articleHeight: {
+          'min-height': window.innerHeight - 360 + 'px'
+        },
       }
     },
     computed: {
