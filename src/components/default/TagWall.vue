@@ -1,6 +1,6 @@
 <template>
   <div v-cloak>
-    <v-headNavBar></v-headNavBar>
+    <v-headNavBar  :path="this.$route.path"></v-headNavBar>
 
     <div class="content">
       <div class="main" :style="mainHeight">
@@ -96,11 +96,11 @@
     .main {
       display: inline-block;
       text-align: left;
-      width: 78%;
-      margin: 30px 0;
+      width: 72%;
+      margin: 30px 45px;
       padding: 30px 45px 0 45px;
-      border-radius: 10px;
       min-height: 600px;
+      border-radius: 10px;
       background: white;
 
       .wall-title {

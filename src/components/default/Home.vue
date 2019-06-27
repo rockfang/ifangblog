@@ -1,6 +1,6 @@
 <template>
   <div v-cloak>
-    <v-headNavBar ></v-headNavBar>
+    <v-headNavBar :path="this.$route.path"></v-headNavBar>
 
     <div class="content">
       <div class="main-home">

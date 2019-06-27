@@ -6,14 +6,13 @@
         <a href="/">ICAIFUN</a>
       </span>
 
-
       <span class="site-header-brand-motto"> | 安静的阿根</span>
 
     </div>
     <div class="site-header-right">
       <nav class="site-header-navigation">
-        <router-link to="/" class="active">主页</router-link>
-        <router-link to="/tagwall">&nbsp&nbsp&nbsp标签墙</router-link>
+        <router-link to="/" :class="{active : this.path == '/'}">主页</router-link>
+        <router-link to="/tagwall" :class="{active : isTagWall()}">&nbsp&nbsp&nbsp标签墙</router-link>
         <router-link to="/">&nbsp&nbsp&nbsp小工具</router-link>
         <router-link to="/">&nbsp&nbsp&nbsp友情链接</router-link>
         <router-link to="/">&nbsp&nbsp&nbsp关于本站</router-link>
@@ -23,14 +22,17 @@
 </template>
 
 <script>
-
     export default {
-
-      watch: {
-        $route(to, from) {
-          console.log("path:" + v-instance.$route.path);
+      props:['path'],
+      methods: {
+        isTagWall: function () {
+          if (!this.path) {
+            return false;
+          }
+          return this.path.indexOf('/tagwall') > -1 || this.path.indexOf('/tagarticle') > -1
         }
-      },
+      },mounted() {
+      }
     }
 </script>
 
