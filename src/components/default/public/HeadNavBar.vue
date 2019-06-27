@@ -13,9 +13,9 @@
       <nav class="site-header-navigation">
         <router-link to="/" :class="{active : this.path == '/'}">主页</router-link>
         <router-link to="/tagwall" :class="{active : isTagWall()}">&nbsp&nbsp&nbsp标签墙</router-link>
-        <router-link to="/">&nbsp&nbsp&nbsp小工具</router-link>
-        <router-link to="/">&nbsp&nbsp&nbsp友情链接</router-link>
-        <router-link to="/">&nbsp&nbsp&nbsp关于本站</router-link>
+        <!--<router-link to="/">&nbsp&nbsp&nbsp小工具</router-link>-->
+        <!--<router-link to="/">&nbsp&nbsp&nbsp友情链接</router-link>-->
+        <router-link to="/about" :class="{active : this.path == '/about'}">&nbsp&nbsp&nbsp关于本站</router-link>
       </nav>
     </div>
   </div>

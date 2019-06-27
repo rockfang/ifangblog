@@ -2,22 +2,35 @@
   <div v-cloak>
     <v-headNavBar  :path="this.$route.path"></v-headNavBar>
 
-    <div class="content">
+    <div class="content-about">
       <div class="main" :style="mainHeight">
 
-        <div class="wall-title">
-          <img src="../../assets/images/tag.png" alt="">
-          标签墙
+        <h3 class="about-title">
+          关于本站
+        </h3>
+        <div class="about-con">
+          本站于2019年7月发布第一个简单版本。采用Vue + ElementUI + Node实现的一个简单的前后端分离博客。
+          <br>
+          <br>
+          说是博客，更多的是希望对自己的学习的一个记录吧。
+          <br>
+          <br>
+          后续会不定期更新文章，以及丰富本站功能。
+          <br>
+          <br>
+          技术交流或者发现本站bug，欢迎通过下面联系方式和我交流。
         </div>
-        <div class="tag-con">
-          <el-tag class="tag-item" :type="getRandomType()"
-                  v-for="(tag,index) in tags"
-                  :key="index"
-                  @click="tagArticleList(tag.name)">
-            {{tag.name}}
-          </el-tag>
+        <br>
+        <h3 class="contact-title">联系方式</h3>
+        <br>
+        <ul>
+          <li>Email: cooldish1245@163.com</li>
+          <br>
+          <li>QQ： 657297417</li>
+          <br>
+          <li>Github：<a href="">https://github.com/dongyuanxin</a></li>
 
-        </div>
+        </ul>
       </div>
     </div>
     <v-bottomBar v-if="ready"></v-bottomBar>
@@ -87,7 +100,7 @@
 
   }
 
-  .content {
+  .content-about {
     margin: 65px 20px 20px 20px;
 
     text-align: center;
@@ -103,19 +116,12 @@
       border-radius: 10px;
       background: white;
 
-      .wall-title {
+      .about-title,.contact-title {
         height: 40px;
-        display: flex;
-        align-items: center;
-
-        img {
-          width: 20px;
-          height: 20px;
-          margin-right: 5px;
-        }
+        border-bottom: 1px dashed #000;
       }
 
-      .tag-con {
+      .about-con {
         margin: 15px 0;
         display: flex;
         flex-wrap: wrap;
@@ -129,6 +135,12 @@
           color: #4FC08D;
           border-color: #4FC08D;
         }
+      }
+
+
+      a {
+        color: #3eaf7c;
+        cursor: pointer;
       }
     }
   }

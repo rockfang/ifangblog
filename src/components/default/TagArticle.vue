@@ -9,7 +9,7 @@
           <img src="../../assets/images/tag.png" alt="" v-else>
           <h2>{{taginfo.name}} 标签</h2>
         </div>
-        <div class="article-item" v-for="item in articles">
+        <div class="article-item" v-for="item in articles" >
           <div class="article-time-head">
             <img src="../../assets/images/calenter.png" alt="">
             <span>{{item.createTime}}</span>
@@ -19,6 +19,7 @@
           </div>
           <div class="article-readmore" @click="goArticle(item._id)"><a href="">查看更多...</a></div>
         </div>
+        <div v-if="!articles || articles.length == 0" class="empty-tips">本标签暂无文章</div>
 
         <template>
           <el-pagination
@@ -33,6 +34,7 @@
         </template>
       </div>
     </div>
+
     <v-bottomBar v-if="ready"></v-bottomBar>
 
   </div>
@@ -180,6 +182,9 @@
           }
         }
 
+      }
+      .empty-tips {
+        margin: 30px 0 0 20px;
       }
 
       .el-pagination {
