@@ -38,7 +38,8 @@ const routes = [
 
 
   { path: '/404', component: resolve => require(['../components/default/404.vue'], resolve) },  /*默认跳转路由*/
-  { path: '*', redirect: '/404' }   /*默认跳转路由*/
+  // { path: '*', redirect: '/404' }   /*默认跳转路由*/
+  { path: '*', redirect: '/' }   /*默认跳转路由*/
 ];
 
 export default  routes;

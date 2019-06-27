@@ -73,11 +73,11 @@
         });
       },
       handleEdit(index, row) {
-        this.$router.push({path:'/manager/admin/edit',query: { id: row.id, username: row.username}});
-        console.log(index, row);
+        this.$router.push({path:'/manager/admin/edit',query: { id: row._id, username: row.username}});
       },
       handleDelete(index, row) {
-        this.$http.get(this.DELETE_URL + '?id='+ row.id).then(response => {
+        console.log(row._id);
+        this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
           if (response.body.success) {
             notifyTool.successTips(this,'成功',response.body.msg);
             this.initData();
