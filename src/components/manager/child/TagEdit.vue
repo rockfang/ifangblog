@@ -40,7 +40,7 @@
 
     <div style="clear:both;height:0;line-height:0;font-sizing:0;"></div>
     <div style="width: 100%;text-align: left;margin-left: 80px;padding: 10px" v-if="icon">
-      <img :src="'http://'+ icon" class="tag-icon">
+      <img :src="'https://'+ icon" class="tag-icon">
     </div>
 
     <div class="upload-row">

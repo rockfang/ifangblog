@@ -5,7 +5,7 @@
     <div class="content">
       <div class="main-atag" :style="mainHeight">
         <div class="tag-title">
-          <img :src="'http://'+taginfo.icon" alt="" v-if="taginfo.icon">
+          <img :src="'https://'+taginfo.icon" alt="" v-if="taginfo.icon">
           <img src="../../assets/images/tag.png" alt="" v-else>
           <h2>{{taginfo.name}} 标签</h2>
         </div>
