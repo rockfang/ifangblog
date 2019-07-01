@@ -91,7 +91,7 @@
         this.getPageTags(page);
       },getPageTags:function (page) {
       //请求服务器，获取pageCount,pageSize
-      this.$http.get(this.TAG_TYPE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
+      this.$http.jsonp(this.TAG_TYPE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
         .then(response => {
           if (response.body.success) {
             this.tableData = response.body.tags;
@@ -123,7 +123,7 @@
           type: 'warning'
         }).then(() => {
 
-          this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+          this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
             if (response.body.success) {
               msgTool.successTips(this,'删除成功!');
               this.getPageTags(1);

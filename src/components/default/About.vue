@@ -28,7 +28,7 @@
           <br>
           <li>QQ： 657297417</li>
           <br>
-          <li>Github：<a href="">https://github.com/dongyuanxin</a></li>
+          <li>Github：<a href="https://github.com/rockfang">https://github.com/rockfang</a></li>
 
         </ul>
       </div>
@@ -63,7 +63,7 @@
       'v-bottomBar': BottomBar,
     }, methods: {
       initTagData: function () {
-        this.$http.get(this.TAGS_URL).then(response => {
+        this.$http.jsonp(this.TAGS_URL).then(response => {
           if (response.body.success) {
             this.tags = response.body.tags;
             this.ready = true;//处理底部栏闪屏出现

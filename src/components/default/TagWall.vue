@@ -50,7 +50,7 @@
       'v-bottomBar': BottomBar,
     }, methods: {
       initTagData: function () {
-        this.$http.get(this.TAGS_URL).then(response => {
+        this.$http.jsonp(this.TAGS_URL).then(response => {
           if (response.body.success) {
             this.tags = response.body.tags;
             this.ready = true;//处理底部栏闪屏出现

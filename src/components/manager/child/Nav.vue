@@ -79,7 +79,7 @@
     },
     methods: {
       initData() {
-        this.$http.get(this.NAV_URL).then(response => {
+        this.$http.jsonp(this.NAV_URL).then(response => {
           if (response.body.success) {
             this.tableData = response.body.nav;
             console.log(this.tableData);
@@ -99,7 +99,7 @@
         });
       },
       handleDelete(index, row) {
-        this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+        this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
           if (response.body.success) {
             notifyTool.successTips(this,'成功',response.body.msg);
             this.initData();

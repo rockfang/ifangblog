@@ -13,7 +13,10 @@
           <div class="article-title">{{item.title}}</div>
           <div class="article-message" v-html="item.description">
           </div>
-          <div class="article-readmore" @click="goArticle(item._id)"><a href="">查看更多...</a></div>
+          <div class="article-readmore" @click="goArticle(item._id)">
+            <a href="">查看更多</a>
+            <img src="../../assets/images/more.png" alt="" >
+          </div>
           <v-articleTagBar :tags="item.tags"></v-articleTagBar>
         </div>
       </div>
@@ -38,6 +41,7 @@ export default {
           ARTICLE_INDEX_URL: Config.BASE_WEB_URL,
           articles: [],
           ready: false,
+          defaultMore: true
         }
       },components: {
         'v-headNavBar': HeadNavBar,
@@ -45,7 +49,7 @@ export default {
         'v-bottomBar': BottomBar,
       },methods: {
         requestArticleIndex: function () {
-          this.$http.get(this.ARTICLE_INDEX_URL).then(response => {
+          this.$http.jsonp(this.ARTICLE_INDEX_URL).then(response => {
             if (response.body.success) {
               this.articles = response.body.articles;
               console.log(this.articles);
@@ -68,6 +72,7 @@ export default {
   display:none;
 
 }
+
 .content {
   margin: 65px 20px 20px 20px;
 
@@ -84,11 +89,11 @@ export default {
       margin: 30px 0;
       padding: 30px 45px 0 45px;
       border-radius: 10px;
-
+      font-size: 16px;
       .article-time-head {
         img {
           width: 16.8px;
-          height: 14px;
+          height: 16px;
         }
       }
 
@@ -106,11 +111,11 @@ export default {
       }
 
       .article-readmore {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         width: 100%;
         margin-top: 15px;
         margin-left: 0;
-        color: #9E9E9E;
         font-weight: 400;
         font-size: 18px;
         font-style: italic;
@@ -119,9 +124,25 @@ export default {
           color: #4FC08D;
           border-color: #4FC08D;
         }
+
+        img {
+          height: 38px;
+          margin: 2px 0 0 5px;
+          cursor: pointer;
+        }
       }
 
     }
+  }
+
+  a {
+    color: #212121;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: #212121;
   }
 }
 

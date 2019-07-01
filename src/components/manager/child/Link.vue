@@ -86,7 +86,7 @@
     },
     methods: {
       initData() {
-        this.$http.get(this.LINKS_URL).then(response => {
+        this.$http.jsonp(this.LINKS_URL).then(response => {
           if (response.body.success) {
             this.tableData = response.body.links;
           }
@@ -105,7 +105,7 @@
       });
     },
       handleDelete(index, row) {
-        this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+        this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
           if (response.body.success) {
             notifyTool.successTips(this,'成功',response.body.msg);
             this.initData();

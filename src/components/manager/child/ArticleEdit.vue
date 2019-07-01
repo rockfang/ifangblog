@@ -292,7 +292,7 @@
         this.inputVisible = false;
         this.inputValue = '';
       },getArticleTypes:function () {
-        this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
+        this.$http.jsonp(this.ARTICLE_TYPE_URL).then(response => {
           if (response.body.success) {
             this.articletypes = response.body.articletypes;
           }
@@ -302,7 +302,7 @@
       },
       getArticle:function() {
         let that = this;
-        this.$http.get(this.ARTICLE_URL + '?id=' + this.$route.query.id).then(response => {
+        this.$http.jsonp(this.ARTICLE_URL + '?id=' + this.$route.query.id).then(response => {
           if (response.body.success) {
             console.log('------');
             console.log(response.body.article.title);

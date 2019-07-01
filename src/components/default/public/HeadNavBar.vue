@@ -37,6 +37,8 @@
 </script>
 
 <style lang="scss">
+
+
   .site-header {
     display: flex;
     justify-content: space-between;
@@ -76,6 +78,16 @@
       .active {
         color:#4FC08D;
       }
+    }
+
+    a {
+      color: #212121;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #212121;
     }
   }
 </style>

@@ -37,10 +37,17 @@
 
     .base-row {
       margin: 5px 0;
+      width: 100%;
+      text-align: center;
     }
 
     .link {
       color: #d9d9d9;
     }
+    a {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
   }
 </style>

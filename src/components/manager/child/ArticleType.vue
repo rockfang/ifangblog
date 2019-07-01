@@ -69,7 +69,7 @@
     },
     methods: {
       initData() {
-        this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
+        this.$http.jsonp(this.ARTICLE_TYPE_URL).then(response => {
           if (response.body.success) {
             this.tableData = response.body.articletypes;
             console.log(this.tableData);
@@ -89,7 +89,7 @@
           type: 'warning'
         }).then(() => {
 
-          this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
+          this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
             if (response.body.success) {
               msgTool.successTips(this,'删除成功!');
               this.initData();

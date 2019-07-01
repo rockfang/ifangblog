@@ -15,7 +15,7 @@
             <span>{{item.createTime}}</span>
           </div>
           <div class="article-title">{{item.title}}</div>
-          <div class="article-message" v-html="item.description">
+          <div class="article-message markdown-body" v-html="item.description">
           </div>
           <div class="article-readmore" @click="goArticle(item._id)"><a href="">查看更多...</a></div>
         </div>
@@ -46,6 +46,16 @@
   import ArticelTagBar from './public/ArticelTagBar.vue'
   import BottomBar from './public/BottomBar.vue'
   import '../../assets/css/basic.scss';
+
+  import 'mavon-editor/dist/markdown/github-markdown.min.css'
+  import 'mavon-editor/dist/highlightjs/styles/gruvbox-dark.min.css'
+
+  /**
+   * import 'mavon-editor/dist/highlightjs/styles/atelier-estuary-dark.min.css'
+   import 'mavon-editor/dist/highlightjs/styles/atelier-cave-dark.min.css'
+   import 'mavon-editor/dist/highlightjs/styles/atelier-dune-dark.min.css'
+   import 'mavon-editor/dist/highlightjs/styles/atelier-heath-dark.min.css'
+   */
   import Config from '../../module/config.js'
 
 
@@ -75,7 +85,7 @@
         this.requestTagArticles(page);
       },requestTagArticles:function (page) {
         //请求服务器，获取pageCount
-        this.$http.get(this.TAG_ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page
+        this.$http.jsonp(this.TAG_ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page
           + "&tagName=" + this.$route.params.name)
           .then(response => {
             if (response.body.success) {
@@ -90,7 +100,7 @@
           });
       },
       initTagData: function () {
-        this.$http.get(this.TAG_INFO_URL + "?name=" + this.$route.params.name).then(response => {
+        this.$http.jsonp(this.TAG_INFO_URL + "?name=" + this.$route.params.name).then(response => {
           if (response.body.success) {
             this.taginfo = response.body.taginfo;
           }
@@ -192,6 +202,16 @@
         bottom: 200px;
       }
     }
+    a {
+      color: #212121;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #212121;
+    }
+
   }
 
 </style>

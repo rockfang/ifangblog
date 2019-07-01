@@ -1,8 +1,9 @@
 <template>
     <div v-cloak>
       <v-headNavBar></v-headNavBar>
-      <div class="content">
-        <div class="article" :style="articleHeight" v-html="article">
+      <div class="content-detail">
+        <!-- 添加空的markdown-body 类名目的是使得引用到mavonEditor中的样式-->
+        <div class="article markdown-body" :style="articleHeight" v-html="article" >
 
         </div>
       </div>
@@ -15,6 +16,17 @@
   import HeadNavBar from '../default/public/HeadNavBar.vue'
   import BottomBar from './public/BottomBar.vue'
   import '../../assets/css/basic.scss';
+  import 'mavon-editor/dist/markdown/github-markdown.min.css'
+  import 'mavon-editor/dist/highlightjs/styles/gruvbox-dark.min.css'
+
+  /**
+   * import 'mavon-editor/dist/highlightjs/styles/atelier-estuary-dark.min.css'
+     import 'mavon-editor/dist/highlightjs/styles/atelier-cave-dark.min.css'
+     import 'mavon-editor/dist/highlightjs/styles/atelier-dune-dark.min.css'
+     import 'mavon-editor/dist/highlightjs/styles/atelier-heath-dark.min.css'
+   */
+
+
   import Config from '../../module/config.js'
 
   export default {
@@ -38,7 +50,7 @@
     },methods:  {
       init: function () {
 
-        // this.$http.get('./article.json').then(response => {
+        // this.$http.jsonp('./article.json').then(response => {
         //   if (response.body.success) {
         //     this.article = response.body.article.renderText;
         //     this.ready = true;
@@ -48,7 +60,7 @@
         //
         // });
 
-        this.$http.get(this.ARTICLE_INDEX_URL +"?id=" + this.$route.query.id).then(response => {
+        this.$http.jsonp(this.ARTICLE_INDEX_URL +"?id=" + this.$route.query.id).then(response => {
           if (response.body.success) {
             this.article = response.body.article.renderText;
             this.ready = true;
@@ -69,7 +81,8 @@
     display:none;
 
   }
-  .content {
+
+  .content-detail {
     margin-top: 60px;
     display: flex;
     width: 100%;
