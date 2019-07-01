@@ -94,7 +94,7 @@
       }
     },methods: {
       init:function() {
-        this.$http.jsonp(this.ARTICLE_PTYPE_URL).then(response => {
+        this.$http.get(this.ARTICLE_PTYPE_URL).then(response => {
           if (response.body.success) {
             this.pTypes = response.body.ptypes;
           }

@@ -64,7 +64,7 @@
     },
     methods: {
       initData() {
-        this.$http.jsonp(this.MANAGER_URL).then(response => {
+        this.$http.get(this.MANAGER_URL).then(response => {
           if (response.body.success) {
             this.tableData = response.body.managers;
           }
@@ -77,7 +77,7 @@
       },
       handleDelete(index, row) {
         console.log(row._id);
-        this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
+        this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
           if (response.body.success) {
             notifyTool.successTips(this,'成功',response.body.msg);
             this.initData();

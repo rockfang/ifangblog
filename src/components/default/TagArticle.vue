@@ -85,7 +85,7 @@
         this.requestTagArticles(page);
       },requestTagArticles:function (page) {
         //请求服务器，获取pageCount
-        this.$http.jsonp(this.TAG_ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page
+        this.$http.get(this.TAG_ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page
           + "&tagName=" + this.$route.params.name)
           .then(response => {
             if (response.body.success) {
@@ -100,7 +100,7 @@
           });
       },
       initTagData: function () {
-        this.$http.jsonp(this.TAG_INFO_URL + "?name=" + this.$route.params.name).then(response => {
+        this.$http.get(this.TAG_INFO_URL + "?name=" + this.$route.params.name).then(response => {
           if (response.body.success) {
             this.taginfo = response.body.taginfo;
           }

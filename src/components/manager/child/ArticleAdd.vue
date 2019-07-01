@@ -301,7 +301,7 @@
       }
 
     }, mounted() {
-      this.$http.jsonp(this.ARTICLE_TYPE_URL).then(response => {
+      this.$http.get(this.ARTICLE_TYPE_URL).then(response => {
         if (response.body.success) {
           this.articletypes = response.body.articletypes;
         }

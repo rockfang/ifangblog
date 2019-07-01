@@ -87,7 +87,7 @@
       }
     },methods: {
       init() {
-        this.$http.jsonp(this.CTAG_URL + '?id=' + this.$route.query.id).then(response => {
+        this.$http.get(this.CTAG_URL + '?id=' + this.$route.query.id).then(response => {
           if (response.body.success) {
             console.log(response.body.ctag.icon);
             this.cTag = response.body.ctag;

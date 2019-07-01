@@ -96,7 +96,7 @@
       }
     },methods: {
       init:function() {
-        this.$http.jsonp(this.ARTICLE_PTYPE_URL).then(response => {
+        this.$http.get(this.ARTICLE_PTYPE_URL).then(response => {
           if (response.body.success) {
             this.pTypes = response.body.ptypes;
             console.log(this.pTypes);
@@ -107,7 +107,7 @@
         });
       },
       getCtype:function() {
-        this.$http.jsonp(this.ARTICLE_CTYPE_URL + '?id=' + this.$route.query.id).then(response => {
+        this.$http.get(this.ARTICLE_CTYPE_URL + '?id=' + this.$route.query.id).then(response => {
           if (response.body.success) {
             this.cType = response.body.ctype;
             this.parentType = this.cType.pid;

@@ -49,7 +49,7 @@
           this.loginOut();
         }
       },loginOut: function () {
-        this.$http.jsonp(this.LOGIN_OUT_URL).then(response => {
+        this.$http.get(this.LOGIN_OUT_URL).then(response => {
           console.log(response.body);
           if(response.body.success) {
             notifyTool.normalTips(this,'退出成功','您已退出登录！');

@@ -50,7 +50,7 @@
     },methods:  {
       init: function () {
 
-        // this.$http.jsonp('./article.json').then(response => {
+        // this.$http.get('./article.json').then(response => {
         //   if (response.body.success) {
         //     this.article = response.body.article.renderText;
         //     this.ready = true;
@@ -60,7 +60,7 @@
         //
         // });
 
-        this.$http.jsonp(this.ARTICLE_INDEX_URL +"?id=" + this.$route.query.id).then(response => {
+        this.$http.get(this.ARTICLE_INDEX_URL +"?id=" + this.$route.query.id).then(response => {
           if (response.body.success) {
             this.article = response.body.article.renderText;
             this.ready = true;

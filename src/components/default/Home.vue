@@ -49,7 +49,7 @@ export default {
         'v-bottomBar': BottomBar,
       },methods: {
         requestArticleIndex: function () {
-          this.$http.jsonp(this.ARTICLE_INDEX_URL).then(response => {
+          this.$http.get(this.ARTICLE_INDEX_URL).then(response => {
             if (response.body.success) {
               this.articles = response.body.articles;
               console.log(this.articles);

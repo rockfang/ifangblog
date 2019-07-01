@@ -124,7 +124,7 @@
       },
       getPageArticles:function (page) {
         //请求服务器，获取pageCount,pageSize
-        this.$http.jsonp(this.ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
+        this.$http.get(this.ARTICLE_URL + "?pageSize=" + this.pageSize + "&page=" + page)
           .then(response => {
             if (response.body.success) {
               this.tableData = response.body.articles;
@@ -146,7 +146,7 @@
           type: 'warning'
         }).then(() => {
 
-          this.$http.jsonp(this.DELETE_URL + '?id='+ row._id).then(response => {
+          this.$http.get(this.DELETE_URL + '?id='+ row._id).then(response => {
             if (response.body.success) {
               msgTool.successTips(this,'删除成功!');
               this.getPageArticles(1);
