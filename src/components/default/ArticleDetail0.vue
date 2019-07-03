@@ -9,35 +9,47 @@
 
 
 <script>
+
+  import Config from '../../module/config.js'
+  import notifyTool from '../../module/notifyTool.js'
+  import msgTool from '../../module/msgTool.js'
   export default {
-    data(){
+    name: "write",
+    data() {
       return {
-        img_file: {}
-      }
+        mdText: "",
+        images: {},
+        POST_IMG_URL: Config.BASE_URL + "admin/article/postImg",
+        DELETE_IMG_URL: Config.BASE_URL + "admin/article/deleteImg"
+      };
     },
     methods: {
-// 绑定@imgAdd event
-      $imgAdd(pos, $file){
-// 第一步.将图片上传到服务器.
-        var formdata = new FormData();
-        formdata.append('image', $file);
-        console.log(formdata);
-//         axios({
-//           url: 'server url',
-//           method: 'post',
-//           data: formdata,
-//           headers: { 'Content-Type': 'multipart/form-data' },
-//         }).then((url) => {
-// // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-// // $vm.$img2Url 详情见本页末尾
-//           $vm.$img2Url(pos, url);
-//         })
-      },$imgDel(pos){
-        console.log("$imgDel");
-        console.log(pos);
-        delete this.img_file[pos];
+      $imgAdd(pos, file) {
+        const $vm = this.$refs.md;
+
+        let formData = new FormData();
+        formData.append('image', file);
+        formData.append('title', "我是标题啊大哥");
+        this.$http.post(this.POST_IMG_URL, formData, {headers: { "Content-Type": "multipart/form-data" }}).then(function (response) {
+          $vm.$img2Url(pos, response.data.remoteUrl);
+        }, function (res) {
+          console.log(error);
+
+        })
       },
+      $imgDel(rs) {
+        let spliteArr = rs[0].split('/');
+        let remoteName = spliteArr[spliteArr.length-1];
+        console.log(remoteName);
+        this.$http.get(this.DELETE_IMG_URL + "?remoteName=" + remoteName).then(response => {
+            if(response.body.success) {
+              console.log(response.body.msg);
+            }
+        },response => {
+
+        });
+      }
     }
-  }
+  };
 </script>
 

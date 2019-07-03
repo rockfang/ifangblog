@@ -113,10 +113,13 @@
 
 
     </div>
+
     <mavon-editor :toolbars="markdownOption"
                   v-model="rawText"
                   codeStyle='androidstudio'
                   :style="mheight"
+                  ref=md
+                  @imgDel="$imgDel"
                   @imgAdd="$imgAdd"
                   @save="saveMavon"
                   @change="saveMavon"
@@ -141,6 +144,9 @@
         ARTICLE_TYPE_URL: Config.BASE_URL + 'admin/articletype',
         ADD_URL: Config.BASE_URL + 'admin/article/doAdd',
 
+        //单个图片添加和删除
+        POST_IMG_URL: Config.BASE_URL + "admin/article/postImg",
+        DELETE_IMG_URL: Config.BASE_URL + "admin/article/deleteImg",
 
         title: "",
         description: "",
@@ -245,36 +251,30 @@
         }, response => {
           notifyTool.errorTips(this, '添加失败', '信息提交失败');
         });
-
-
       },
       saveMavon(value, render) {
         this.renderText = render;
       },
-      // 绑定@imgAdd event
-      $imgAdd(pos, $file) {
-        console.log("触发图片上传");
-        console.log(pos);
-        console.log($file);
-        // 第一步.将图片上传到服务器.
-        // var formdata = new FormData();
-        // formdata.append(‘file‘, $file);
-        // console.log(formdata);
-        // imgeApi(formdata).then(res=>{
-        //   // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-        //   /**
-        //    * $vm 指为mavonEditor实例，可以通过如下两种方式获取
-        //    * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
-        //    * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
-        //    */
-        //   console.log(res.data);
-        //   let url="/server/"+res.data.data;
-        //   this.$refs.md.$img2Url(pos, url);
-        //   //相应的md格式的文件内容就是它绑定的变量
-        //   //得到相应的html/文件
-        //   console.log(this.$refs.md.d_render);
-        //
-        // });
+      $imgAdd(pos, file) {
+        const $vm = this.$refs.md;
+        let formData = new FormData();
+        formData.append('image', file);
+        this.$http.post(this.POST_IMG_URL, formData, {headers: {"Content-Type": "multipart/form-data"}}).then(function (response) {
+          $vm.$img2Url(pos, response.data.remoteUrl);
+        }, function (error) {
+          console.log(error);
+        })
+      }, $imgDel(rs) {
+        let spliteArr = rs[0].split('/');
+        let remoteName = spliteArr[spliteArr.length - 1];
+        console.log(remoteName);
+        this.$http.get(this.DELETE_IMG_URL + "?remoteName=" + remoteName).then(response => {
+          if (response.body.success) {
+            console.log(response.body.msg);
+          }
+        }, response => {
+
+        });
       }, getValue: function (value) {
         this.pid = value;
       },
