@@ -101,6 +101,24 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
+    },
+    created() {
+      let vm = this;
+
+      document.onkeydown = function(e) {
+        let key = window.event.keyCode;
+        if (key === 13) {
+          vm.submitForm('ruleForm');
+        }
+      }
+    },
+    beforeDestroy() {
+      document.onkeydown = function (e) {
+        let key = window.event.keyCode;
+        if (key === 13) {
+
+        }
+      }
     }
   }
 </script>

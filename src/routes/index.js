@@ -9,7 +9,7 @@ const routes = [
   { path: '/', component: resolve => require(['../components/default/Home.vue'], resolve)},
 
   { path: '/article', component: resolve => require(['../components/default/ArticleDetail.vue'], resolve)},
-  { path: '/article0', component: resolve => require(['../components/default/ArticleDetail0.vue'], resolve)},
+  // { path: '/article0', component: resolve => require(['../components/default/ArticleDetail0.vue'], resolve)},
   { path: '/tagwall', component: resolve => require(['../components/default/TagWall.vue'], resolve)},
   { path: '/tagarticle/:name', component: resolve => require(['../components/default/TagArticle.vue'], resolve)},
   { path: '/about', component: resolve => require(['../components/default/About.vue'], resolve)},
