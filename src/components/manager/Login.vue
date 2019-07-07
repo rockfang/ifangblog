@@ -123,7 +123,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .loginpage {
     position: absolute;
     width: 100%;

@@ -170,7 +170,7 @@
   }
 </script>
 
-<style scoped>
+<style  scoped lang="scss">
   .el-table .warning-row {
     background: oldlace;
   }

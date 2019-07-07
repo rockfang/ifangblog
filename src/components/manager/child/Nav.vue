@@ -141,7 +141,7 @@
   }
 </script>
 
-<style >
+<style  scoped lang="scss">
   .el-table .warning-row {
     background: oldlace;
   }
