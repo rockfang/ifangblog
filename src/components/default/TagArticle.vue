@@ -198,8 +198,6 @@
       }
 
       .el-pagination {
-        position: absolute;
-        bottom: 200px;
       }
     }
     a {
